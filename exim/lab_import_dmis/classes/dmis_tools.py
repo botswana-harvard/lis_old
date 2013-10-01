@@ -3,8 +3,8 @@ import logging
 import pyodbc
 from django.conf import settings
 from django.db.models import get_model
-from edc.lab.lab_order.models import Order as LisOrder
-from edc.lab.lab_result.models import Result as LisResult
+from lis.specimen.lab_order.models import Order as LisOrder
+from lis.specimen.lab_result.models import Result as LisResult
 
 
 logger = logging.getLogger(__name__)

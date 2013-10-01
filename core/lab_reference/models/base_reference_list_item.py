@@ -1,12 +1,10 @@
 from django.db import models
-from edc.base.model.models import BaseModel
-from edc.choices.common import POS_NEG_ANY
-from edc.lab.lab_common.choices import UNITS
-from ..choices import GENDER_OF_REFERENCE
+from lis.choices import UNITS
+from ..choices import GENDER_OF_REFERENCE, POS_NEG_ANY
 from ..utils import get_lower_range_days, get_upper_range_days
 
 
-class BaseReferenceListItem(BaseModel):
+class BaseReferenceListItem(models.Model):
 
     code = models.CharField(max_length=25, null=True, blank=True)
 

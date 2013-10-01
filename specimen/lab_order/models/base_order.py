@@ -1,6 +1,6 @@
 from django.db import models
 from edc.base.model.validators import datetime_not_future
-from edc.lab.base.model.models import BaseLabUuidModel
+from lis.base.model.models import BaseLabUuidModel
 from ..choices import ORDER_STATUS
 
 

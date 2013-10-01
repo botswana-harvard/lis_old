@@ -1,6 +1,5 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from edc.core.bhp_common.utils import os_variables
 from ..classes import Label
 from ..forms import LabelForm
 
@@ -22,5 +21,5 @@ def simple_labeller(request, **kwargs):
         form = LabelForm()
     else:
         form = LabelForm()
-    return render_to_response(template, {'form': form, 'os_variables': os_variables, },
+    return render_to_response(template, {'form': form},
                               context_instance=RequestContext(request))

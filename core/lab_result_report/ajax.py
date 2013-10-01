@@ -1,8 +1,8 @@
 from django.template.loader import render_to_string
 from dajax.core import Dajax
 from dajaxice.decorators import dajaxice_register
-from edc.lab.lab_result.models import Result
-from edc.lab.lab_result_item.models import ResultItem
+from lis.specimen.lab_result.models import Result
+from lis.specimen.lab_result_item.models import ResultItem
 
 
 @dajaxice_register

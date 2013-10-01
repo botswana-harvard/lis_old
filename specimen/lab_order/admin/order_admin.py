@@ -1,9 +1,8 @@
 from django.contrib import admin
-from edc.base.admin.admin import BaseModelAdmin
 from ..models import Order
 
 
-class OrderAdmin(BaseModelAdmin):
+class OrderAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         if not change:
@@ -22,6 +21,6 @@ class OrderAdmin(BaseModelAdmin):
     fields = ('order_datetime', 'panel', 'aliquot', 'comment', 'dmis_reference', )
     list_display = ('order_identifier', 'order_datetime', 'panel', 'aliquot', 'dmis_reference')
     list_filter = ('order_datetime', 'panel', )
-    search_fields = ['order_identifier', 'dmis_reference', 'aliquot__aliquot_identifier', 'aliquot__receive__receive_identifier', 'aliquot__receive__protocol__protocol_identifier',]
+    search_fields = ['order_identifier', 'dmis_reference', 'aliquot__aliquot_identifier', 'aliquot__receive__receive_identifier', 'aliquot__receive__protocol__protocol_identifier']
     date_hierarchy = 'order_datetime'
 admin.site.register(Order, OrderAdmin)

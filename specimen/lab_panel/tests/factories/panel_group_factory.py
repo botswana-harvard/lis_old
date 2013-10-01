@@ -1,5 +1,5 @@
 import factory
-from edc.lab.base.model.tests.factories import BaseLabModelFactory
+from lis.base.model.tests.factories import BaseLabModelFactory
 from ...models import PanelGroup
 
 

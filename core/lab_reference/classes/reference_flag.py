@@ -1,5 +1,5 @@
 from django.conf import settings
-from edc.lab.lab_flag.classes import Flag
+from lis.core.lab_flag.classes import Flag
 
 
 class ReferenceFlag(Flag):

@@ -1,15 +1,15 @@
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
-from edc.choices.common import GENDER, ART_STATUS_UNKNOWN, POS_NEG_UNKNOWN
-from edc.base.model.models import BaseUuidModel
 from edc.base.model.fields import InitialsField, IsDateEstimatedField
 from edc.base.model.validators import dob_not_future
-from edc.lab.lab_account.models import Account
-from edc.lab.lab_patient.managers import PatientManager
+from lis.choices import GENDER, ART_STATUS_UNKNOWN, POS_NEG_UNKNOWN
+from lis.base.model.models import BaseLabUuidModel
+from lis.subject.lab_account.models import Account
+from ..managers import PatientManager
 
 
-class Patient(BaseUuidModel):
+class Patient(BaseLabUuidModel):
 
     subject_identifier = models.CharField('Subject Identifier',
         max_length=25,

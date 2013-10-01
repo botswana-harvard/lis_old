@@ -2,17 +2,14 @@
 import os
 import subprocess
 import cStringIO as StringIO
-import ho.pisa as pisa
+import ho
+import pisa as pisa
 from math import ceil, trunc
-#from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404
-from edc.lab.lab_result.models import Result
-from edc.lab.lab_result_item.models import ResultItem
-#from edc.lab.lab_order.models import Order
-#from edc.lab.lab_aliquot.models import Aliquot
-#from edc.lab.lab_receive.models import Receive
-from edc.lab.lab_patient.models import Patient
+from lis.subject.lab_patient.models import Patient
+from lis.specimen.lab_result.models import Result
+from lis.specimen.lab_result_item.models import ResultItem
 
 
 def batch_print_result_as_pdf(**kwargs):

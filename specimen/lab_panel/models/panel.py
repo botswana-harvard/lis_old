@@ -1,8 +1,7 @@
 from django.db import models
-from edc.lab.lab_account.models import Account
-from edc.lab.lab_test_code.models import TestCode
-from edc.lab.lab_aliquot_list.models import AliquotType
-#from lab_clinic_api.managers import PanelManager
+from lis.subject.lab_account.models import Account
+from lis.specimen.lab_test_code.models import TestCode
+from lis.specimen.lab_aliquot_list.models import AliquotType
 from .panel_group import PanelGroup
 from .base_panel import BasePanel
 
@@ -29,8 +28,6 @@ class Panel(BasePanel):
         null=True,
         blank=True,
         )
-
-#     objects = PanelManager()
 
     def __unicode__(self):
         return self.name

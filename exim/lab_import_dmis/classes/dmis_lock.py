@@ -1,6 +1,6 @@
 import logging
-from edc.core.bhp_lock.classes import BaseLock
-from edc.lab.lab_import_dmis.models import DmisLockModel, DmisImportHistoryModel
+from lis.core.lock.classes import BaseLock
+from lis.exim.lab_import_dmis.models import DmisLockModel, DmisImportHistoryModel
 
 logger = logging.getLogger(__name__)
 

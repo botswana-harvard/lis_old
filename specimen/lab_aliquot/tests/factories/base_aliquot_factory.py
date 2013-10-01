@@ -1,5 +1,5 @@
 import factory
-from edc.lab.base.model.tests.factories import BaseLabUuidModelFactory
+from lis.base.model.tests.factories import BaseLabUuidModelFactory
 
 
 class BaseAliquotFactory(BaseLabUuidModelFactory):

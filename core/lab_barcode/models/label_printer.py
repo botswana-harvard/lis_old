@@ -1,5 +1,5 @@
 from django.db import models
-from edc.lab.base.model.models import BaseLabUuidModel
+from lis.base.model.models import BaseLabUuidModel
 
 
 class LabelPrinter(BaseLabUuidModel):

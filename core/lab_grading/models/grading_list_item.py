@@ -1,6 +1,6 @@
 from django.db import models
-from edc.lab.lab_reference.models import BaseReferenceListItem
-from edc.lab.lab_test_code.models import TestCode
+from lis.core.lab_reference.models import BaseReferenceListItem
+from lis.specimen.lab_test_code.models import TestCode
 from .grading_list import GradingList
 
 

@@ -1,9 +1,8 @@
 from django.contrib import admin
-from edc.base.admin.admin import BaseModelAdmin
-from edc.lab.lab_receive.models import Receive
+from ..models import Receive
 
 
-class ReceiveAdmin(BaseModelAdmin):
+class ReceiveAdmin(admin.ModelAdmin):
 
     def get_readonly_fields(self, request, obj=None):
         if obj:  # In edit mode

@@ -1,9 +1,9 @@
 from django.db import models
-from edc.base.model.models import BaseModel
+from lis.base.model.models import BaseLabModel
 from .test_code import TestCode
 
 
-class TestCodeInterfaceMapping(BaseModel):
+class TestCodeInterfaceMapping(BaseLabModel):
 
     foreign_test_code = models.CharField(
         verbose_name="Foreign Test Code",

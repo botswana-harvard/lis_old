@@ -1,6 +1,6 @@
 import factory
-from edc.lab.base.model.tests.factories import BaseLabListModelFactory
-from edc.lab.lab_common.choices import UNITS
+from lis.base.model.tests.factories import BaseLabListModelFactory
+from lis.choices import UNITS
 
 
 class BaseTestCodeFactory(BaseLabListModelFactory):

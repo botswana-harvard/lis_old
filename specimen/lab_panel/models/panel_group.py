@@ -1,6 +1,5 @@
 from django.db import models
-from edc.lab.base.model.models import BaseLabModel
-#from edc.lab.lab_clinic_api.managers import PanelGroupManager
+from lis.base.model.models import BaseLabModel
 
 
 class PanelGroup (BaseLabModel):
@@ -10,8 +9,6 @@ class PanelGroup (BaseLabModel):
         max_length=25,
         unique=True,
         )
-
-    #objects = PanelGroupManager()
 
     def __unicode__(self):
         return self.name

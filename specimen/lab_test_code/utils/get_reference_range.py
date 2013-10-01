@@ -13,15 +13,15 @@ def get_reference_range(**kwargs):
     age_in_days = get_age_in_days(drawn_datetime, kwargs.get('dob'))
 
     # filter for the reference items for this list and this testcode, gender
-    oTestCodeReferenceListItem = TestCodeReferenceListItem.objects.filter(
+    test_code_reference_list_item = TestCodeReferenceListItem.objects.filter(
                                     test_code_reference_list__name__iexact=REFLIST,
                                     test_code=kwargs.get('test_code'),
                                     gender__icontains=kwargs.get('gender')
                                     )
     # loop to find record for this age_in_days
-    if oTestCodeReferenceListItem:
-        # raise TypeError(oTestCodeReferenceListItem)
-        for reference_item in oTestCodeReferenceListItem:
+    if test_code_reference_list_item:
+        # raise TypeError(test_code_reference_list_item)
+        for reference_item in test_code_reference_list_item:
             # find the record for this age
             if reference_item.age_low_days() <= age_in_days and reference_item.age_high_days() >= age_in_days:
                 if kwargs.get('range_category') == 'lln':

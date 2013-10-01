@@ -1,6 +1,6 @@
 import logging
-from edc.core.bhp_lock.classes import BaseImportHistory
-from edc.lab.lab_import_dmis.models import DmisImportHistoryModel
+from lis.core.lock.classes import BaseImportHistory
+from lis.exim.lab_import_dmis.models import DmisImportHistoryModel
 from .dmis_lock import DmisLock
 
 

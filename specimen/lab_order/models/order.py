@@ -1,6 +1,6 @@
 from django.db import models
-from edc.lab.lab_aliquot.models import Aliquot
-from edc.lab.lab_panel.models import Panel
+from lis.specimen.lab_aliquot.models import Aliquot
+from lis.specimen.lab_panel.models import Panel
 from ..managers import OrderManager
 from .base_order import BaseOrder
 

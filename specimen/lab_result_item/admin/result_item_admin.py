@@ -1,10 +1,9 @@
 from datetime import datetime
 from django.contrib import admin
-from edc.base.admin.admin import BaseModelAdmin
-from edc.lab.lab_result_item.models import ResultItem
+from lis.specimen.lab_result_item.models import ResultItem
 
 
-class ResultItemAdmin(BaseModelAdmin):
+class ResultItemAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
 

@@ -1,5 +1,5 @@
 from django.db import models
-from edc.lab.base.model.models import BaseLabListModel
+from lis.base.model.models import BaseLabListModel
 
 
 class AliquotMedium(BaseLabListModel):

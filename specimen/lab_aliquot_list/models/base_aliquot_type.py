@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import RegexValidator
-from edc.lab.base.model.models import BaseLabModel
+from lis.base.model.models import BaseLabModel
 
 
 class BaseAliquotType(BaseLabModel):

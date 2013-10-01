@@ -1,11 +1,10 @@
 from django.contrib import admin
-from edc.base.admin.admin import BaseModelAdmin
-from edc.lab.lab_result.models import Result
-from edc.lab.lab_patient.models import Patient
-from edc.lab.lab_patient.forms import PatientForm
+from lis.specimen.lab_result.models import Result
+from .models import Patient
+from .forms import PatientForm
 
 
-class PatientAdmin(BaseModelAdmin):
+class PatientAdmin(admin.ModelAdmin):
 
     form = PatientForm
 

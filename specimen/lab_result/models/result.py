@@ -1,5 +1,5 @@
 from django.db import models
-from edc.lab.lab_order.models import Order
+from lis.specimen.lab_order.models import Order
 from .base_result import BaseResult
 
 

@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import RegexValidator
-from edc.lab.base.model.models import BaseLabModel
-from edc.lab.lab_common.choices import UNITS, ABS_CALC
+from lis.base.model.models import BaseLabModel
+from lis.choices import UNITS, ABS_CALC
 from ..managers import TestCodeManager
 
 

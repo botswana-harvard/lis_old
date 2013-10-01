@@ -4,17 +4,17 @@ import re
 from datetime import datetime
 from django.conf import settings
 from django.db.models import Max, get_model
-from edc.core.bhp_research_protocol.models import Protocol, Site, Location
-from edc.lab.lab_receive.models import Receive
-from edc.lab.lab_order.models import Order
-from edc.lab.lab_panel.models import Panel
-from edc.lab.lab_result.models import Result
-from edc.lab.lab_result.models import ResultSource
-from edc.lab.lab_test_code.models import TestCode, TestCodeGroup
-from edc.lab.lab_aliquot.models import Aliquot
-from edc.lab.lab_aliquot_list.models import AliquotType, AliquotCondition, AliquotMedium
-from edc.lab.lab_patient.models import Patient
-from edc.lab.lab_account.models import Account
+from lis.core.bhp_research_protocol.models import Protocol, Site, Location
+from lis.specimen.lab_receive.models import Receive
+from lis.specimen.lab_order.models import Order
+from lis.specimen.lab_panel.models import Panel
+from lis.specimen.lab_result.models import Result
+from lis.specimen.lab_result.models import ResultSource
+from lis.specimen.lab_test_code.models import TestCode, TestCodeGroup
+from lis.specimen.lab_aliquot.models import Aliquot
+from lis.specimen.lab_aliquot_list.models import AliquotType, AliquotCondition, AliquotMedium
+from lis.subject.lab_patient.models import Patient
+from lis.subject.lab_account.models import Account
 from .import_history import ImportHistory
 from .base_dmis import BaseDmis
 

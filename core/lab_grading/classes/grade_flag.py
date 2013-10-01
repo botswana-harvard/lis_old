@@ -1,7 +1,7 @@
 from django.db.models import Q, get_model
 from django.conf import settings
-from edc.lab.lab_flag.classes import Flag
-from edc.lab.lab_reference.classes import ReferenceFlag
+from lis.core.lab_flag.classes import Flag
+from lis.core.lab_reference.classes import ReferenceFlag
 
 
 class GradeFlag(Flag):

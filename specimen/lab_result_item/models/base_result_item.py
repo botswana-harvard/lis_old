@@ -1,6 +1,7 @@
 import re
 from django.db import models
-from edc.lab.base.model.models import BaseLabUuidModel
+from lis.base.model.models import BaseLabUuidModel
+from ..classes import ResultItemFlag
 from ..choices import RESULT_VALIDATION_STATUS, RESULT_QUANTIFIER
 
 
@@ -140,7 +141,6 @@ class BaseResultItem(BaseLabUuidModel):
         return None
 
     def get_result_item_flag(self):
-        from lab_result_item.classes import ResultItemFlag
         return ResultItemFlag()
 
     def get_result_item_values(self):

@@ -1,6 +1,6 @@
 from django.db import models
-from edc.lab.lab_receive.models import Receive
-from edc.lab.lab_aliquot_list.models import AliquotCondition, AliquotType
+from lis.specimen.lab_receive.models import Receive
+from lis.specimen.lab_aliquot_list.models import AliquotCondition, AliquotType
 from ..managers import AliquotManager
 from .base_aliquot import BaseAliquot
 

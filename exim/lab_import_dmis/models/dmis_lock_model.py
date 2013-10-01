@@ -1,4 +1,4 @@
-from edc.core.bhp_lock.models import BaseLockModel
+from lis.core.lock.models import BaseLockModel
 
 
 class DmisLockModel(BaseLockModel):

@@ -1,8 +1,8 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
-from edc.lab.lab_result.models import Result
-from edc.lab.lab_result_report.classes import ResultContext
+from lis.specimen.lab_result.models import Result
+from ..classes import ResultContext
 
 
 @login_required

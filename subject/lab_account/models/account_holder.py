@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext as _
 from edc.base.model.fields import NameField, InitialsField
-from edc.lab.base.model.models import BaseLabUuidModel
+from lis.base.model.models import BaseLabUuidModel
 
 
 class AccountHolder(BaseLabUuidModel):

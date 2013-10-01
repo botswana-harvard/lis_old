@@ -2,7 +2,7 @@ from datetime import datetime
 from django.db import models
 from edc.base.model.validators import datetime_not_future
 from edc.base.model.fields import InitialsField
-from edc.lab.base.model.models import BaseLabUuidModel
+from lis.base.model.models import BaseLabUuidModel
 
 
 class BaseReceive (BaseLabUuidModel):

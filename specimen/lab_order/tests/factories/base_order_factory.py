@@ -1,6 +1,6 @@
 import factory
 from datetime import datetime
-from edc.lab.base.model.tests.factories import BaseLabUuidModelFactory
+from lis.base.model.tests.factories import BaseLabUuidModelFactory
 
 
 class BaseOrderFactory(BaseLabUuidModelFactory):

@@ -1,21 +1,18 @@
-import cgi
-import sys
 import os
 import subprocess
 import cStringIO as StringIO
-import ho.pisa as pisa
+import ho
+import pisa as pisa
 from math import ceil, trunc
 from reportlab.pdfgen import canvas
-from django.template.loader import render_to_string, get_template
+from django.template.loader import render_to_string
 from django.http import HttpResponse
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
-from django.template import Context
-from django import http
-from edc.lab.lab_result.models import Result
-from edc.lab.lab_result_item.models import ResultItem
-from edc.lab.lab_result_report.classes import ResultContext
+from lis.specimen.lab_result.models import Result
+from lis.specimen.lab_result_item.models import ResultItem
+from ..classes import ResultContext
 
 
 @login_required

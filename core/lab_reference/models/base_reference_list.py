@@ -1,8 +1,7 @@
 from django.db import models
-from edc.base.model.models import BaseModel
 
 
-class BaseReferenceList(BaseModel):
+class BaseReferenceList(models.Model):
 
     name = models.CharField(
         verbose_name="List name",

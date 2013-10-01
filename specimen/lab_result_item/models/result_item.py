@@ -1,6 +1,6 @@
 from django.db import models
-from edc.lab.lab_result.models import Result, ResultSource
-from edc.lab.lab_test_code.models import TestCode
+from lis.specimen.lab_result.models import Result, ResultSource
+from lis.specimen.lab_test_code.models import TestCode
 from ..classes import ReferenceRangeFlag, LabGradeFlag
 from .base_result_item import BaseResultItem
 

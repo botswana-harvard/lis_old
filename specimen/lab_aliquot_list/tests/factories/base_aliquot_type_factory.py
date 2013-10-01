@@ -1,5 +1,5 @@
 import factory
-from edc.lab.base.model.tests.factories import BaseLabListModelFactory
+from lis.base.model.tests.factories import BaseLabListModelFactory
 
 
 class BaseAliquotTypeFactory(BaseLabListModelFactory):

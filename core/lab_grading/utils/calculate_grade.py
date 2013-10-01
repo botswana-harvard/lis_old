@@ -1,5 +1,5 @@
 from edc.core.bhp_common.utils import round_up, get_age_in_days
-from edc.lab.lab_grading.models import GradingListItem
+from ..models import GradingListItem
 
 
 def calculate_grade(**kwargs):

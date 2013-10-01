@@ -1,5 +1,5 @@
 from django.db import models
-from edc.lab.base.model.models import BaseLabModel
+from lis.base.model.models import BaseLabModel
 
 
 class BasePanel(BaseLabModel):

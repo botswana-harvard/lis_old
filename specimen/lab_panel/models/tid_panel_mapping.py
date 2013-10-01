@@ -1,9 +1,9 @@
 from django.db import models
-from edc.base.model.models import BaseModel
-from edc.lab.lab_panel.models import Panel
+from lis.base.model.models import BaseLabModel
+from lis.specimen.lab_panel.models import Panel
 
 
-class TidPanelMapping(BaseModel):
+class TidPanelMapping(BaseLabModel):
 
     tid = models.CharField(
         verbose_name='dmis TID',
