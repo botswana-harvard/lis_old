@@ -1,6 +1,6 @@
 import logging
-from edc.core.bhp_lock.classes import BaseImportHistory
-from edc.lab.lab_import_lis.models import LisImportHistoryModel
+from lis.core.lock.classes import BaseImportHistory
+from ..models import LisImportHistoryModel
 from .lis_lock import LisLock
 
 

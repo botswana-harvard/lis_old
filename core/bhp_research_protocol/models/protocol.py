@@ -1,5 +1,5 @@
 from django.db import models
-from funding_source import FundingSource
+from .funding_source import FundingSource
 
 
 class Protocol(models.Model):

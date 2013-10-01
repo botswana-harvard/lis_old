@@ -1,5 +1,5 @@
 import logging
-from edc.core.bhp_lock.classes import BaseLock
+from lis.core.lock.classes import BaseLock
 from ..models import LisLockModel, LisImportHistoryModel
 
 logger = logging.getLogger(__name__)

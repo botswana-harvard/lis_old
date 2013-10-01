@@ -1,6 +1,6 @@
 from django.db import models
-from site import Site
-from protocol import Protocol
+from .site import Site
+from .protocol import Protocol
 
 
 class ResearchClinic(models.Model):

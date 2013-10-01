@@ -3,8 +3,8 @@ from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 from edc.subject.registration.models import RegisteredSubject
 from edc.subject.lab_tracker.classes import site_lab_tracker
-from edc.lab.lab_import_lis.classes import LisLock, ImportHistory, Lis
-from edc.lab.lab_clinic_api.classes import EdcLab
+from edc.lab.lab_clinic_api.classes import EdcLabResults
+from ...classes import LisLock, ImportHistory, LisDataImporter
 
 site_lab_tracker.autodiscover()
 
@@ -82,12 +82,12 @@ class Command(BaseCommand):
             raise CommandError('Unknown option, Try --help for a list of valid options')
 
     def import_from_lis(self, db, import_as_new=None):
-        lis = Lis(db)
-        lis.import_from_lis(protocol_identifier=settings.PROJECT_NUMBER)
+        lis_data_importer = LisDataImporter(db)
+        lis_data_importer.import_from_lis(protocol_identifier=settings.PROJECT_NUMBER)
 
     def import_from_lis_for_subject(self, subject_identifier):
-        edc.lab = EdcLab()
-        last_updated = edc.lab.update(subject_identifier)
+        edc_lab_results = EdcLabResults()
+        last_updated = edc_lab_results.update(subject_identifier)
         print last_updated
 
     def unlock(self, lis_lock, lock_name):

@@ -1,9 +1,9 @@
 from django.utils.translation import ugettext as _
-from edc.base.model.models import BaseUuidModel
 from edc.base.model.fields import NameField, InitialsField
+from lis.base.model.models import BaseLabUuidModel
 
 
-class SiteLeader (BaseUuidModel):
+class SiteLeader (BaseLabUuidModel):
 
     first_name = NameField(
         verbose_name=_("First name")

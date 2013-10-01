@@ -1,5 +1,5 @@
 from django.db import models
-from location import Location
+from .location import Location
 
 
 class Site(models.Model):
