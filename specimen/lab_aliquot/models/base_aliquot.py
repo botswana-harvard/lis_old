@@ -1,6 +1,6 @@
 import datetime
 from django.db import models
-from edc.lab.base.model.models import BaseLabListUuidModel
+from lis.base.model.models import BaseLabListUuidModel
 from ..choices import ALIQUOT_STATUS, SPECIMEN_MEASURE_UNITS, SPECIMEN_MEDIUM
 
 

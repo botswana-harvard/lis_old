@@ -1,3 +1,6 @@
+from django.utils.translation import ugettext_lazy as _
+
+
 POS_NEG_UNKNOWN = (
     ('POS', _('Positive')),
     ('NEG', _('Negative')),

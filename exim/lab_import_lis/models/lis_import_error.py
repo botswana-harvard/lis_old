@@ -1,8 +1,8 @@
 from django.db import models
-from edc.base.model.models import BaseUuidModel
+from lis.base.model.models import BaseLabUuidModel
 
 
-class LisImportError(BaseUuidModel):
+class LisImportError(BaseLabUuidModel):
 
     model_name = models.CharField(max_length=25)
 

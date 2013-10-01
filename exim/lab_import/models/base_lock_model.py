@@ -1,8 +1,8 @@
 from django.db import models
-from edc.base.model.models import BaseUuidModel
+from lis.base.model.models import BaseLabUuidModel
 
 
-class BaseLockModel(BaseUuidModel):
+class BaseLockModel(BaseLabUuidModel):
 
     """ Track who is updating from dmis to django-lis.
 
