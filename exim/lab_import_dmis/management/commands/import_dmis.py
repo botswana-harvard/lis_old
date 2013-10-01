@@ -1,7 +1,7 @@
 from optparse import make_option
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
-from edc.lab.lab_import_dmis.classes import DmisLock, Dmis, ImportHistory, DmisTools
+from lis.exim.lab_import_dmis.classes import DmisLock, Dmis, ImportHistory, DmisTools
 from edc.subject.lab_tracker.classes import site_lab_tracker
 
 site_lab_tracker.autodiscover()
