@@ -1,5 +1,12 @@
-from edc.base.model.tests.factories import BaseUuidModelFactory
+import factory
 
 
-class BaseLabUuidModelFactory(BaseUuidModelFactory):
-        ABSTRACT_FACTORY = True
+class BaseLabUuidModelFactory(factory.DjangoModelFactory):
+    ABSTRACT_FACTORY = True
+
+    @classmethod
+    def _setup_next_sequence(cls):
+        try:
+            return 1 + cls._associated_class._default_manager.count()
+        except IndexError:
+            return 1

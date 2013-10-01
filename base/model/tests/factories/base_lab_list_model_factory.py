@@ -1,5 +1,5 @@
-from edc.base.model.tests.factories import BaseModelFactory
+import factory
 
 
-class BaseLabListModelFactory(BaseModelFactory):
-        ABSTRACT_FACTORY = True
+class BaseLabListModelFactory(factory.DjangoModelFactory):
+    ABSTRACT_FACTORY = True
