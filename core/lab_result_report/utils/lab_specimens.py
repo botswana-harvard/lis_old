@@ -4,7 +4,7 @@ cnxn = pyodbc.connect("DRIVER={FreeTDS};SERVER=192.168.1.141;UID=sa;PWD=cc3721b;
 cursor = cnxn.cursor()
 
 def fetch_receiving(sample_id):
-	sql =  """select l.pid as sample_id, 
+	sql = """select l.pid as sample_id, 
 					l.datecreated as sample_date_received, 
 					l.pat_id,
 					l.sample_date_drawn, 
@@ -56,16 +56,16 @@ def fetch_receiving(sample_id):
  				where l.pid='%s'"""
  	sql = sql % sample_id
 
- 	#print sql
+ 	# print sql
  	cursor.execute(sql)
  	row = cursor.fetchone()
 	return row
-	
+
 def fetch_orders():
 	return ""
-	
+
 def fetch_results(sample_id, lab21_id):
-	sql =  """select l21.id as lab21_id,
+	sql = """select l21.id as lab21_id,
 				l21.pid as sample_id,
 				l21.headerdate as report_date,
 				l21.panel_id,

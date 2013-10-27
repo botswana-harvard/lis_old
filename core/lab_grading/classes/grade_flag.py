@@ -35,7 +35,7 @@ class GradeFlag(Flag):
     def get_lab_tracker_group_name(self):
         """Returns a group name to use when filtering on values in the lab_tracker class.
 
-        See :mode:bhp_lab_tracker"""
+        See :mode:edc.subject.lab_tracker"""
         return 'HIV'
 
     def get_list_prep(self, value, test_code, gender, hiv_status, age_in_days, **kwargs):
