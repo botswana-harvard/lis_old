@@ -8,62 +8,64 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        #This is deleting fields that do not exist
+        pass 
         # Deleting field 'TestCodeReferenceListItemAudit.hostname_created'
-        db.delete_column('bhp_lab_test_code_testcodereferencelistitem_audit', 'hostname_created')
-
-        # Deleting field 'TestCodeReferenceListItemAudit.hostname_modified'
-        db.delete_column('bhp_lab_test_code_testcodereferencelistitem_audit', 'hostname_modified')
-
-        # Deleting field 'TestCodeReferenceListItemAudit.created'
-        db.delete_column('bhp_lab_test_code_testcodereferencelistitem_audit', 'created')
-
-        # Deleting field 'TestCodeReferenceListItemAudit.user_modified'
-        db.delete_column('bhp_lab_test_code_testcodereferencelistitem_audit', 'user_modified')
-
-        # Deleting field 'TestCodeReferenceListItemAudit.modified'
-        db.delete_column('bhp_lab_test_code_testcodereferencelistitem_audit', 'modified')
-
-        # Deleting field 'TestCodeReferenceListItemAudit.user_created'
-        db.delete_column('bhp_lab_test_code_testcodereferencelistitem_audit', 'user_created')
-
-
-        # Changing field 'TestCodeReferenceListItemAudit._audit_id'
-        db.alter_column('bhp_lab_test_code_testcodereferencelistitem_audit', '_audit_id', self.gf('django.db.models.fields.AutoField')(primary_key=True))
-        # Deleting field 'TestCodeReferenceListItem.hostname_created'
-        db.delete_column('bhp_lab_test_code_testcodereferencelistitem', 'hostname_created')
-
-        # Deleting field 'TestCodeReferenceListItem.hostname_modified'
-        db.delete_column('bhp_lab_test_code_testcodereferencelistitem', 'hostname_modified')
-
-        # Deleting field 'TestCodeReferenceListItem.user_created'
-        db.delete_column('bhp_lab_test_code_testcodereferencelistitem', 'user_created')
-
-        # Deleting field 'TestCodeReferenceListItem.user_modified'
-        db.delete_column('bhp_lab_test_code_testcodereferencelistitem', 'user_modified')
-
-        # Deleting field 'TestCodeReferenceListItem.created'
-        db.delete_column('bhp_lab_test_code_testcodereferencelistitem', 'created')
-
-        # Deleting field 'TestCodeReferenceListItem.modified'
-        db.delete_column('bhp_lab_test_code_testcodereferencelistitem', 'modified')
-
-        # Deleting field 'TestCodeReferenceList.hostname_created'
-        db.delete_column('bhp_lab_test_code_testcodereferencelist', 'hostname_created')
-
-        # Deleting field 'TestCodeReferenceList.hostname_modified'
-        db.delete_column('bhp_lab_test_code_testcodereferencelist', 'hostname_modified')
-
-        # Deleting field 'TestCodeReferenceList.user_created'
-        db.delete_column('bhp_lab_test_code_testcodereferencelist', 'user_created')
-
-        # Deleting field 'TestCodeReferenceList.created'
-        db.delete_column('bhp_lab_test_code_testcodereferencelist', 'created')
-
-        # Deleting field 'TestCodeReferenceList.user_modified'
-        db.delete_column('bhp_lab_test_code_testcodereferencelist', 'user_modified')
-
-        # Deleting field 'TestCodeReferenceList.modified'
-        db.delete_column('bhp_lab_test_code_testcodereferencelist', 'modified')
+#         db.delete_column('bhp_lab_test_code_testcodereferencelistitem_audit', 'hostname_created')
+# 
+#         # Deleting field 'TestCodeReferenceListItemAudit.hostname_modified'
+#         db.delete_column('bhp_lab_test_code_testcodereferencelistitem_audit', 'hostname_modified')
+# 
+#         # Deleting field 'TestCodeReferenceListItemAudit.created'
+#         db.delete_column('bhp_lab_test_code_testcodereferencelistitem_audit', 'created')
+# 
+#         # Deleting field 'TestCodeReferenceListItemAudit.user_modified'
+#         db.delete_column('bhp_lab_test_code_testcodereferencelistitem_audit', 'user_modified')
+# 
+#         # Deleting field 'TestCodeReferenceListItemAudit.modified'
+#         db.delete_column('bhp_lab_test_code_testcodereferencelistitem_audit', 'modified')
+# 
+#         # Deleting field 'TestCodeReferenceListItemAudit.user_created'
+#         db.delete_column('bhp_lab_test_code_testcodereferencelistitem_audit', 'user_created')
+# 
+# 
+#         # Changing field 'TestCodeReferenceListItemAudit._audit_id'
+#         db.alter_column('bhp_lab_test_code_testcodereferencelistitem_audit', '_audit_id', self.gf('django.db.models.fields.AutoField')(primary_key=True))
+#         # Deleting field 'TestCodeReferenceListItem.hostname_created'
+#         db.delete_column('bhp_lab_test_code_testcodereferencelistitem', 'hostname_created')
+# 
+#         # Deleting field 'TestCodeReferenceListItem.hostname_modified'
+#         db.delete_column('bhp_lab_test_code_testcodereferencelistitem', 'hostname_modified')
+# 
+#         # Deleting field 'TestCodeReferenceListItem.user_created'
+#         db.delete_column('bhp_lab_test_code_testcodereferencelistitem', 'user_created')
+# 
+#         # Deleting field 'TestCodeReferenceListItem.user_modified'
+#         db.delete_column('bhp_lab_test_code_testcodereferencelistitem', 'user_modified')
+# 
+#         # Deleting field 'TestCodeReferenceListItem.created'
+#         db.delete_column('bhp_lab_test_code_testcodereferencelistitem', 'created')
+# 
+#         # Deleting field 'TestCodeReferenceListItem.modified'
+#         db.delete_column('bhp_lab_test_code_testcodereferencelistitem', 'modified')
+# 
+#         # Deleting field 'TestCodeReferenceList.hostname_created'
+#         db.delete_column('bhp_lab_test_code_testcodereferencelist', 'hostname_created')
+# 
+#         # Deleting field 'TestCodeReferenceList.hostname_modified'
+#         db.delete_column('bhp_lab_test_code_testcodereferencelist', 'hostname_modified')
+# 
+#         # Deleting field 'TestCodeReferenceList.user_created'
+#         db.delete_column('bhp_lab_test_code_testcodereferencelist', 'user_created')
+# 
+#         # Deleting field 'TestCodeReferenceList.created'
+#         db.delete_column('bhp_lab_test_code_testcodereferencelist', 'created')
+# 
+#         # Deleting field 'TestCodeReferenceList.user_modified'
+#         db.delete_column('bhp_lab_test_code_testcodereferencelist', 'user_modified')
+# 
+#         # Deleting field 'TestCodeReferenceList.modified'
+#         db.delete_column('bhp_lab_test_code_testcodereferencelist', 'modified')
 
 
     def backwards(self, orm):

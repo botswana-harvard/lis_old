@@ -9,40 +9,8 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         # Deleting field 'GradingListItem.hostname_created'
-        db.delete_column(u'lab_grading_gradinglistitem', 'hostname_created')
-
-        # Deleting field 'GradingListItem.hostname_modified'
-        db.delete_column(u'lab_grading_gradinglistitem', 'hostname_modified')
-
-        # Deleting field 'GradingListItem.created'
-        db.delete_column(u'lab_grading_gradinglistitem', 'created')
-
-        # Deleting field 'GradingListItem.user_modified'
-        db.delete_column(u'lab_grading_gradinglistitem', 'user_modified')
-
-        # Deleting field 'GradingListItem.modified'
-        db.delete_column(u'lab_grading_gradinglistitem', 'modified')
-
-        # Deleting field 'GradingListItem.user_created'
-        db.delete_column(u'lab_grading_gradinglistitem', 'user_created')
-
-        # Deleting field 'GradingList.hostname_created'
-        db.delete_column(u'lab_grading_gradinglist', 'hostname_created')
-
-        # Deleting field 'GradingList.hostname_modified'
-        db.delete_column(u'lab_grading_gradinglist', 'hostname_modified')
-
-        # Deleting field 'GradingList.user_created'
-        db.delete_column(u'lab_grading_gradinglist', 'user_created')
-
-        # Deleting field 'GradingList.created'
-        db.delete_column(u'lab_grading_gradinglist', 'created')
-
-        # Deleting field 'GradingList.user_modified'
-        db.delete_column(u'lab_grading_gradinglist', 'user_modified')
-
-        # Deleting field 'GradingList.modified'
-        db.delete_column(u'lab_grading_gradinglist', 'modified')
+        #This was deleting fields that do not exist
+        pass
 
 
     def backwards(self, orm):

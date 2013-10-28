@@ -8,28 +8,30 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        #This is deleting fields that do not exist
+        pass
         # Adding field 'Order.revision'
-        db.add_column('bhp_lab_core_order', 'revision',
-                      self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True),
-                      keep_default=False)
+#         db.add_column('bhp_lab_core_order', 'revision',
+#                       self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True),
+#                       keep_default=False)
 
         # Deleting field 'OrderIdentifierTracker.hostname_created'
-        db.delete_column('bhp_lab_core_orderidentifiertracker', 'hostname_created')
-
-        # Deleting field 'OrderIdentifierTracker.hostname_modified'
-        db.delete_column('bhp_lab_core_orderidentifiertracker', 'hostname_modified')
-
-        # Deleting field 'OrderIdentifierTracker.user_created'
-        db.delete_column('bhp_lab_core_orderidentifiertracker', 'user_created')
-
-        # Deleting field 'OrderIdentifierTracker.created'
-        db.delete_column('bhp_lab_core_orderidentifiertracker', 'created')
-
-        # Deleting field 'OrderIdentifierTracker.user_modified'
-        db.delete_column('bhp_lab_core_orderidentifiertracker', 'user_modified')
-
-        # Deleting field 'OrderIdentifierTracker.modified'
-        db.delete_column('bhp_lab_core_orderidentifiertracker', 'modified')
+#         db.delete_column('bhp_lab_core_orderidentifiertracker', 'hostname_created')
+# 
+#         # Deleting field 'OrderIdentifierTracker.hostname_modified'
+#         db.delete_column('bhp_lab_core_orderidentifiertracker', 'hostname_modified')
+# 
+#         # Deleting field 'OrderIdentifierTracker.user_created'
+#         db.delete_column('bhp_lab_core_orderidentifiertracker', 'user_created')
+# 
+#         # Deleting field 'OrderIdentifierTracker.created'
+#         db.delete_column('bhp_lab_core_orderidentifiertracker', 'created')
+# 
+#         # Deleting field 'OrderIdentifierTracker.user_modified'
+#         db.delete_column('bhp_lab_core_orderidentifiertracker', 'user_modified')
+# 
+#         # Deleting field 'OrderIdentifierTracker.modified'
+#         db.delete_column('bhp_lab_core_orderidentifiertracker', 'modified')
 
 
     def backwards(self, orm):
