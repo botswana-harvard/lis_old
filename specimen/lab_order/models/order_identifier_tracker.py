@@ -1,7 +1,8 @@
 from django.db import models
 
+from edc.base.model.models import BaseModel
 
-class OrderIdentifierTracker(models.Model):
+class OrderIdentifierTracker(BaseModel):
 
     """track unique order numbers for new order records."""
 
