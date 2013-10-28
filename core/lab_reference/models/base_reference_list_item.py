@@ -3,6 +3,7 @@ from django.db import models
 from edc.base.model.models import BaseModel
 
 from lis.choices import UNITS
+
 from ..choices import GENDER_OF_REFERENCE, POS_NEG_ANY
 from ..utils import get_lower_range_days, get_upper_range_days
 
