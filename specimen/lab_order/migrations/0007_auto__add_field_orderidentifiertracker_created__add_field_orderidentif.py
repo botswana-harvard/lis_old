@@ -8,44 +8,14 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        #This is deleting fields that do not exist
-        pass
-        # Adding field 'Order.revision'
-#         db.add_column('bhp_lab_core_order', 'revision',
-#                       self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True),
-#                       keep_default=False)
-
-        # Deleting field 'OrderIdentifierTracker.hostname_created'
-#         db.delete_column('bhp_lab_core_orderidentifiertracker', 'hostname_created')
-# 
-#         # Deleting field 'OrderIdentifierTracker.hostname_modified'
-#         db.delete_column('bhp_lab_core_orderidentifiertracker', 'hostname_modified')
-# 
-#         # Deleting field 'OrderIdentifierTracker.user_created'
-#         db.delete_column('bhp_lab_core_orderidentifiertracker', 'user_created')
-# 
-#         # Deleting field 'OrderIdentifierTracker.created'
-#         db.delete_column('bhp_lab_core_orderidentifiertracker', 'created')
-# 
-#         # Deleting field 'OrderIdentifierTracker.user_modified'
-#         db.delete_column('bhp_lab_core_orderidentifiertracker', 'user_modified')
-# 
-#         # Deleting field 'OrderIdentifierTracker.modified'
-#         db.delete_column('bhp_lab_core_orderidentifiertracker', 'modified')
-
-
-    def backwards(self, orm):
-        # Deleting field 'Order.revision'
-        db.delete_column('bhp_lab_core_order', 'revision')
-
-        # Adding field 'OrderIdentifierTracker.hostname_created'
-        db.add_column('bhp_lab_core_orderidentifiertracker', 'hostname_created',
-                      self.gf('django.db.models.fields.CharField')(default='mac.local', max_length=50, blank=True, db_index=True),
+        # Adding field 'OrderIdentifierTracker.created'
+        db.add_column('bhp_lab_core_orderidentifiertracker', 'created',
+                      self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now, blank=True),
                       keep_default=False)
 
-        # Adding field 'OrderIdentifierTracker.hostname_modified'
-        db.add_column('bhp_lab_core_orderidentifiertracker', 'hostname_modified',
-                      self.gf('django.db.models.fields.CharField')(default='mac.local', max_length=50, blank=True, db_index=True),
+        # Adding field 'OrderIdentifierTracker.modified'
+        db.add_column('bhp_lab_core_orderidentifiertracker', 'modified',
+                      self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now, blank=True),
                       keep_default=False)
 
         # Adding field 'OrderIdentifierTracker.user_created'
@@ -53,20 +23,40 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.CharField')(default='', max_length=250, db_index=True),
                       keep_default=False)
 
-        # Adding field 'OrderIdentifierTracker.created'
-        db.add_column('bhp_lab_core_orderidentifiertracker', 'created',
-                      self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now, blank=True),
-                      keep_default=False)
-
         # Adding field 'OrderIdentifierTracker.user_modified'
         db.add_column('bhp_lab_core_orderidentifiertracker', 'user_modified',
                       self.gf('django.db.models.fields.CharField')(default='', max_length=250, db_index=True),
                       keep_default=False)
 
-        # Adding field 'OrderIdentifierTracker.modified'
-        db.add_column('bhp_lab_core_orderidentifiertracker', 'modified',
-                      self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now, blank=True),
+        # Adding field 'OrderIdentifierTracker.hostname_created'
+        db.add_column('bhp_lab_core_orderidentifiertracker', 'hostname_created',
+                      self.gf('django.db.models.fields.CharField')(default='silverapple', max_length=50, db_index=True, blank=True),
                       keep_default=False)
+
+        # Adding field 'OrderIdentifierTracker.hostname_modified'
+        db.add_column('bhp_lab_core_orderidentifiertracker', 'hostname_modified',
+                      self.gf('django.db.models.fields.CharField')(default='silverapple', max_length=50, db_index=True, blank=True),
+                      keep_default=False)
+
+
+    def backwards(self, orm):
+        # Deleting field 'OrderIdentifierTracker.created'
+        db.delete_column('bhp_lab_core_orderidentifiertracker', 'created')
+
+        # Deleting field 'OrderIdentifierTracker.modified'
+        db.delete_column('bhp_lab_core_orderidentifiertracker', 'modified')
+
+        # Deleting field 'OrderIdentifierTracker.user_created'
+        db.delete_column('bhp_lab_core_orderidentifiertracker', 'user_created')
+
+        # Deleting field 'OrderIdentifierTracker.user_modified'
+        db.delete_column('bhp_lab_core_orderidentifiertracker', 'user_modified')
+
+        # Deleting field 'OrderIdentifierTracker.hostname_created'
+        db.delete_column('bhp_lab_core_orderidentifiertracker', 'hostname_created')
+
+        # Deleting field 'OrderIdentifierTracker.hostname_modified'
+        db.delete_column('bhp_lab_core_orderidentifiertracker', 'hostname_modified')
 
 
     models = {
@@ -136,7 +126,7 @@ class Migration(SchemaMigration):
         'lab_aliquot.aliquot': {
             'Meta': {'object_name': 'Aliquot', 'db_table': "'bhp_lab_core_aliquot'"},
             'aliquot_condition': ('django.db.models.fields.related.ForeignKey', [], {'default': '10', 'to': "orm['lab_aliquot_list.AliquotCondition']", 'null': 'True'}),
-            'aliquot_datetime': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 10, 24, 0, 0)'}),
+            'aliquot_datetime': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 10, 28, 0, 0)'}),
             'aliquot_identifier': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '25'}),
             'aliquot_type': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['lab_aliquot_list.AliquotType']"}),
             'comment': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'}),
@@ -213,8 +203,14 @@ class Migration(SchemaMigration):
         'lab_order.orderidentifiertracker': {
             'Meta': {'ordering': "['yyyymm', 'counter']", 'unique_together': "(['yyyymm', 'counter'],)", 'object_name': 'OrderIdentifierTracker', 'db_table': "'bhp_lab_core_orderidentifiertracker'"},
             'counter': ('django.db.models.fields.IntegerField', [], {'db_index': 'True'}),
+            'created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now', 'blank': 'True'}),
+            'hostname_created': ('django.db.models.fields.CharField', [], {'default': "'silverapple'", 'max_length': '50', 'db_index': 'True', 'blank': 'True'}),
+            'hostname_modified': ('django.db.models.fields.CharField', [], {'default': "'silverapple'", 'max_length': '50', 'db_index': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'modified': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now', 'blank': 'True'}),
             'order_identifier': ('django.db.models.fields.CharField', [], {'max_length': '25', 'db_index': 'True'}),
+            'user_created': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '250', 'db_index': 'True'}),
+            'user_modified': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '250', 'db_index': 'True'}),
             'yyyymm': ('django.db.models.fields.IntegerField', [], {'db_index': 'True'})
         },
         'lab_panel.panel': {
@@ -280,7 +276,7 @@ class Migration(SchemaMigration):
             'patient': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['lab_patient.Patient']"}),
             'protocol': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['bhp_research_protocol.Protocol']"}),
             'receive_condition': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True'}),
-            'receive_datetime': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 10, 24, 0, 0)', 'db_index': 'True'}),
+            'receive_datetime': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 10, 28, 0, 0)', 'db_index': 'True'}),
             'receive_identifier': ('django.db.models.fields.CharField', [], {'max_length': '25', 'unique': 'True', 'null': 'True', 'db_index': 'True'}),
             'requisition_identifier': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '25', 'null': 'True', 'blank': 'True'}),
             'revision': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'}),
