@@ -1,0 +1,11 @@
+^XA
+^FO310,5^A0N,15,20^FD${protocol} Site ${site} ${label_count}/${label_count_total}^FS
+^FO305,20^BY1,3.0^BCN,50,N,N,N
+^BY^FD${specimen_identifier}^FS
+^FO305,80^A0N,15,20^FD${specimen_identifier}^FS
+^FO310,100^A0N,15,20^FD${panel} ${aliquot_type}^FS
+^FO310,118^A0N,16,20^FD${subject_identifier} ${initials}^FS
+^FO310,136^A0N,16,20^FDDOB: ${dob} ${gender}^FS
+^FO310,152^A0N,20^FD${drawn_datetime}^FS
+^XZ
+
