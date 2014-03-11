@@ -2,8 +2,6 @@ from datetime import datetime
 
 from django.contrib import messages
 
-from ..models import ZplTemplate
-
 from .label import Label
 
 

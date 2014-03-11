@@ -11,17 +11,13 @@ from ..models import ZplTemplate, LabelPrinter
 
 
 class Label(object):
-
     """ Prints a label based on a template and it's context."""
-
     def __init__(self):
-
         self._zpl_template = None
         self._formatted_label = None
         self._label_printer = None
-        self._default_label_printer = None
+        self.default_label_printer = None
         self.file_name = None
-
         self.client_addr = None
         self.label_context = {'barcode_value': '123456789'}
         self.message = ''
@@ -57,6 +53,7 @@ class Label(object):
 
     @property
     def default_template(self):
+        """Sets the default template based on the default name and string."""
         if not self.zpl_template:
             zpl_template = ZplTemplate()
             zpl_template.name = self.default_zpl_template_name
@@ -67,6 +64,7 @@ class Label(object):
 
     @property
     def default_zpl_template_name(self):
+        """Name for the default template."""
         return 'Default label template'
 
     @property
@@ -136,30 +134,21 @@ class Label(object):
             f.close()
             return True
         except:
-            self.message = ('Cannot print label. Unable to create/open temporary '
-                            'file {0}.'.format(self.file_name))
+            self.message = ('Cannot print label. Unable to create/open temporary file {0}.'.format(self.file_name))
             return False
 
     @property
     def label_printer(self):
         """ Set the label printer by remote_addr or default"""
-        if not self._label_printer:
-            if LabelPrinter.objects.filter(client__ip=self.client_addr, default=True).count() == 1:
-                self._label_printer = LabelPrinter.objects.get(client__ip=self.client_addr, default=True)
-            elif LabelPrinter.objects.filter(client__ip=self.client_addr, default=False).count() == 1:
-                self._label_printer = LabelPrinter.objects.get(client__ip=self.client_addr, default=False)
-            else:
-                self._label_printer = self.default_label_printer
+        # get default for this client
+        if LabelPrinter.objects.filter(client__ip=self.client_addr, default=True).count() == 1:
+            self._label_printer = LabelPrinter.objects.get(client__ip=self.client_addr, default=True)
+        # get for this client even if not default
+        elif LabelPrinter.objects.filter(client__ip=self.client_addr, default=False).count() == 1:
+            self._label_printer = LabelPrinter.objects.get(client__ip=self.client_addr, default=False)
+        else:
+            if not self.default_label_printer:
+                if LabelPrinter.objects.filter(cups_server_ip='127.0.0.1').count() == 1:
+                    self.default_label_printer = LabelPrinter.objects.get(cups_server_ip='127.0.0.1')
+            self._label_printer = self.default_label_printer
         return self._label_printer
-
-    @property
-    def default_label_printer(self):
-        """Returns a default printer or raises an error if None."""
-        # TODO: ask cups/system for default printer?
-        if not self._default_label_printer:
-            if LabelPrinter.objects.filter(default=True):
-                self._default_label_printer = LabelPrinter.objects.get(default=True)
-            else:
-                self._default_label_printer = None
-                self.message = 'Unable to determine the label printer for client {0}. Perhaps set one printer as the default printer. See model LabelPrinter.'.format(self.client_addr)
-        return self._default_label_printer
