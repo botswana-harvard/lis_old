@@ -1,7 +1,8 @@
 from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured
-from .models import LabelPrinter
+
 from .classes import Label, QuerysetLabel
+from .models import LabelPrinter
 
 
 def print_test_label(modeladmin, request, queryset):

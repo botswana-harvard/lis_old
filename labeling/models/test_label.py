@@ -32,5 +32,6 @@ class TestLabel(BaseLabUuidModel):
         return self.identifier
 
     class Meta:
-        app_label = 'lab_barcode'
+        app_label = 'labeling'
+        db_table = 'lab_barcode_testlabel'
         ordering = ['-created', ]

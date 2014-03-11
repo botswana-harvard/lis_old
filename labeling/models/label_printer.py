@@ -3,7 +3,7 @@ from lis.base.model.models import BaseLabUuidModel
 
 
 class LabelPrinter(BaseLabUuidModel):
-
+    """A model of the printer name and IP address."""
     cups_printer_name = models.CharField(max_length=50)
 
     cups_server_ip = models.IPAddressField()
@@ -22,5 +22,6 @@ class LabelPrinter(BaseLabUuidModel):
         super(LabelPrinter, self).save(*args, **kwargs)
 
     class Meta:
-        app_label = 'lab_barcode'
+        app_label = 'labeling'
+        db_table = 'lab_barcode_labelprinter'
         ordering = ['cups_server_ip', ]
