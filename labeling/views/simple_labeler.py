@@ -4,7 +4,7 @@ from ..classes import Label
 from ..forms import LabelForm
 
 
-def simple_labeller(request, **kwargs):
+def simple_labeler(request, **kwargs):
 
     template = 'label.html'
     if request.method == 'POST':
@@ -21,5 +21,4 @@ def simple_labeller(request, **kwargs):
         form = LabelForm()
     else:
         form = LabelForm()
-    return render_to_response(template, {'form': form},
-                              context_instance=RequestContext(request))
+    return render_to_response(template, {'form': form}, context_instance=RequestContext(request))
