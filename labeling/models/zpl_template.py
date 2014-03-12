@@ -3,8 +3,8 @@ from lis.base.model.models import BaseLabUuidModel
 
 
 class ZplTemplate(BaseLabUuidModel):
-
-    name = models.CharField(max_length=50)
+    """A model of the templates used for formating barcodes in the ZPL template language."""
+    name = models.CharField(max_length=50, unique=True)
 
     template = models.TextField(max_length=250)
 
@@ -22,4 +22,5 @@ class ZplTemplate(BaseLabUuidModel):
         super(ZplTemplate, self).save(*args, **kwargs)
 
     class Meta:
-        app_label = 'lab_barcode'
+        app_label = 'labeling'
+        db_table = 'lab_barcode_zpltemplate'
