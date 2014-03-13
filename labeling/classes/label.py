@@ -81,7 +81,8 @@ class Label(object):
     @property
     def formatted_label(self):
         """ Returns a label string formatted with zpl template and the current label context. """
-        return Template(self.zpl_template.template).safe_substitute(self.label_context)
+        formatted_label_string = Template(self.zpl_template.template).safe_substitute(self.label_context)
+        return formatted_label_string
 
     def print_label(self, copies, client_addr):
         """ Prints the label or throws an exception if the printer is not found. """
@@ -113,7 +114,7 @@ class Label(object):
                         raise PrinterException(self.message)
                     else:
                         self.message = ('Successfully printed label \'{0}\' {1}/{2} to '
-                                        '{3} from {4}'.format(self.self.barcode_value, (copies - i + 1), copies,
+                                        '{3} from {4}'.format(self.barcode_value, (copies - i + 1), copies,
                                                      self.label_printer.cups_printer_name, self.client_addr))
                     print_success = True
         return (self.message, print_success)

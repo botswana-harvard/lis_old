@@ -9,6 +9,7 @@ class ModelLabel(Label):
     """ Print a label building the template and context from the model."""
     def __init__(self):
         self._model_instance = None
+        self.label_context = {}
         super(ModelLabel, self).__init__()
 
     def print_label(self, request, model_instance, copies=None):
