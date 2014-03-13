@@ -4,7 +4,7 @@ from .label_printer import LabelPrinter
 
 
 class Client(BaseLabUuidModel):
-
+    """A model that links client or user's machine to a printer by IP address."""
     ip = models.IPAddressField()
 
     name = models.CharField(
@@ -19,5 +19,6 @@ class Client(BaseLabUuidModel):
         return "%s - %s" % (self.ip, self.name,)
 
     class Meta:
-        app_label = 'lab_barcode'
+        app_label = 'labeling'
+        db_table = 'lab_barcode_client'
         ordering = ['ip', 'label_printer', ]
