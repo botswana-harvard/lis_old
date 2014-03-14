@@ -1,1 +1,2 @@
-from barcode_tests import BarcodeTests
+from label_tests import LabelTests
+from model_label_tests import ModelLabelTests

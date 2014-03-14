@@ -11,23 +11,27 @@ from ..models import ZplTemplate, LabelPrinter
 
 
 class Label(object):
-    """ Prints a label based on a template and it's context."""
+    """ Prints a label based on a template and it's context.
+
+    An example of a ZPL template string is ::
+        template_string = ('^XA\n'
+            '^FO325,5^A0N,15,20^FD${label_count}/${label_count_total}^FS\n'
+            '^FO320,20^BY1,3.0^BCN,50,N,N,N\n'
+            '^BY^FD${barcode_value}^FS\n'
+            '^FO320,80^A0N,15,20^FD${barcode_value}^FS\n'
+            '^FO325,152^A0N,20^FD${timestamp}^FS\n'
+            '^XZ')
+"""
     def __init__(self):
         self._zpl_template = None
         self._formatted_label = None
         self._label_printer = None
+        self.zpl_template_string = None
         self.default_label_printer = None
         self.file_name = None
         self.client_addr = None
         self.label_context = {'barcode_value': '123456789'}
         self.message = ''
-        self.default_template_string = ('^XA\n'
-                '^FO325,5^A0N,15,20^FD${label_count}/${label_count_total}^FS\n'
-                '^FO320,20^BY1,3.0^BCN,50,N,N,N\n'
-                '^BY^FD${barcode_value}^FS\n'
-                '^FO320,80^A0N,15,20^FD${barcode_value}^FS\n'
-                '^FO325,152^A0N,20^FD${timestamp}^FS\n'
-                '^XZ')
 
     @property
     def barcode_value(self):
@@ -39,50 +43,22 @@ class Label(object):
 
     @zpl_template.setter
     def zpl_template(self, name_or_instance):
-        """ Set zpl_template with a zpl_template name or an instance of ZplTemplate otherwise return None."""
+        """ Set zpl_template with a zpl_template name or an instance of ZplTemplate otherwise return None.
+
+        Also sets the zpl_template_string using the ZplTemplate.template value."""
         self._zpl_template = None
         if isinstance(name_or_instance, ZplTemplate):
             self._zpl_template = name_or_instance
         elif isinstance(name_or_instance, basestring):
             self._zpl_template = ZplTemplate.objects.get(name=name_or_instance)
         else:
-            try:
-                self._zpl_template = ZplTemplate.objects.get(default=True)
-            except:
-                pass
+            raise TypeError('Unable to set the Zpl Template. Got {0}'.format(name_or_instance))
+        self.zpl_template_string = self._zpl_template.template
 
     @property
-    def default_template(self):
-        """Sets the default template based on the default name and string."""
-        if not self.zpl_template:
-            zpl_template = ZplTemplate()
-            zpl_template.name = self.default_zpl_template_name
-            zpl_template.default = True
-            zpl_template.template = self.default_template_string
-            zpl_template.save()
-        return zpl_template
-
-    @property
-    def default_zpl_template_name(self):
-        """Name for the default template."""
-        return 'Default label template'
-
-    @property
-    def default_zpl_template_string(self):
-        return ("""^XA
-                ^FO325,15^A0N,15,20^FDBHHRL^FS
-                ^FO310,30^BY2,3^BCN,75,N,N,N\n
-                ^BY^FD${barcode_value}^FS
-                ^FO320,110^A0N,15,20^FD${barcode_value}^FS
-                ^FO325,130^A0N,15,20^FDCD4^FS
-                ^FO325,150^A0N,20^FD${created}^FS
-                ^XZ""")
-
-    @property
-    def formatted_label(self):
-        """ Returns a label string formatted with zpl template and the current label context. """
-        formatted_label_string = Template(self.zpl_template.template).safe_substitute(self.label_context)
-        return formatted_label_string
+    def formatted_label_string(self):
+        """ Returns a label string formatted with zpl template string and the current label context. """
+        return Template(self.zpl_template_string).safe_substitute(self.label_context)
 
     def print_label(self, copies, client_addr):
         """ Prints the label or throws an exception if the printer is not found. """
@@ -131,12 +107,12 @@ class Label(object):
         fd, self.file_name = tempfile.mkstemp()
         try:
             f = os.fdopen(fd, "w")
-            f.write(self.formatted_label)
-            f.close()
-            return True
         except:
             self.message = ('Cannot print label. Unable to create/open temporary file {0}.'.format(self.file_name))
             return False
+        f.write(self.formatted_label_string)
+        f.close()
+        return True
 
     @property
     def label_printer(self):
