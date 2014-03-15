@@ -1,4 +1,5 @@
 from django.db import models
+
 from lis.base.model.models import BaseLabUuidModel
 
 
@@ -23,5 +24,5 @@ class LabelPrinter(BaseLabUuidModel):
 
     class Meta:
         app_label = 'labeling'
-        db_table = 'lab_barcode_labelprinter'
+#         db_table = 'lab_barcode_labelprinter'
         ordering = ['cups_server_ip', ]

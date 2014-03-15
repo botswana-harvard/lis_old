@@ -6,7 +6,6 @@ import threading
 from datetime import datetime
 from string import Template
 
-from ..exceptions import PrinterException
 from ..models import ZplTemplate, LabelPrinter
 
 
@@ -31,7 +30,10 @@ class Label(object):
         self.file_name = None
         self.client_addr = None
         self.label_context = {'barcode_value': '123456789'}
-        self.message = ''
+        self.message = None
+        self.error_message = None
+        self.process = None
+        self.msgs = None
 
     @property
     def barcode_value(self):
@@ -64,8 +66,12 @@ class Label(object):
         """ Prints the label or throws an exception if the printer is not found. """
         print_success = False
         self.message = None
+        self.error_message = None
+        self.msgs = []
         self.client_addr = client_addr
-        if self.label_printer:
+        if not self.label_printer:
+            self.error_message = 'Unable to determine the correct printer'
+        else:
             # reverse order so labels are in order top to bottom on a strip
             for i in range(copies, 0, -1):
                 self.label_context.update({
@@ -84,23 +90,27 @@ class Label(object):
                         thread.join()
                     if self.process.returncode < 0:
                         # process timed out so throw an exception
-                        self.message = ('Unable to connect to printer '
+                        self.error_message = ('Unable to connect to printer '
                                         '{0} ({1}){2}.'.format(unicode(self.label_printer),
                                                             self.process.returncode, self.client_addr))
-                        raise PrinterException(self.message)
+                        #raise PrinterException(self.message)
+                    elif self.error_message:
+                        self.error_message = '{0} See printer {1}.'.format(self.error_message, self.label_printer.cups_printer_name)
                     else:
                         self.message = ('Successfully printed label \'{0}\' {1}/{2} to '
                                         '{3} from {4}'.format(self.barcode_value, (copies - i + 1), copies,
                                                      self.label_printer.cups_printer_name, self.client_addr))
-                    print_success = True
-        return (self.message, print_success)
+                        print_success = True
+        return (self.message, self.error_message, print_success)
 
     def printing_processor(self):
         """ Callback to run lpr in a thread. """
         self.process = subprocess.Popen(['lpr', '-P', self.label_printer.cups_printer_name, '-l',
                                         self.file_name, '-H', self.label_printer.cups_server_ip],
-                                        shell=False)
-        self.process.communicate()
+                                        shell=False,
+                                        stdout=subprocess.PIPE,
+                                        stderr=subprocess.PIPE)
+        self.message, self.error_message = self.process.communicate()
 
     def write_formatted_label_to_file(self):
         """ Write the formatted label to a text file for the printer """
@@ -117,15 +127,17 @@ class Label(object):
     @property
     def label_printer(self):
         """ Set the label printer by remote_addr or default"""
-        # get default for this client
-        if LabelPrinter.objects.filter(client__ip=self.client_addr, default=True).count() == 1:
-            self._label_printer = LabelPrinter.objects.get(client__ip=self.client_addr, default=True)
-        # get for this client even if not default
-        elif LabelPrinter.objects.filter(client__ip=self.client_addr, default=False).count() == 1:
-            self._label_printer = LabelPrinter.objects.get(client__ip=self.client_addr, default=False)
-        else:
-            if not self.default_label_printer:
+        if not self._label_printer:
+            # get default for this client
+            if LabelPrinter.objects.filter(client__ip=self.client_addr, default=True).count() == 1:
+                self._label_printer = LabelPrinter.objects.get(client__ip=self.client_addr, default=True)
+            # get for this client even if not default
+            elif LabelPrinter.objects.filter(client__ip=self.client_addr, default=False).count() == 1:
+                self._label_printer = LabelPrinter.objects.get(client__ip=self.client_addr, default=False)
+            elif self.default_label_printer:
+                self._label_printer = self.default_label_printer
+            else:
+                # last try, a local printer?
                 if LabelPrinter.objects.filter(cups_server_ip='127.0.0.1').count() == 1:
-                    self.default_label_printer = LabelPrinter.objects.get(cups_server_ip='127.0.0.1')
-            self._label_printer = self.default_label_printer
+                        self._label_printer = LabelPrinter.objects.get(cups_server_ip='127.0.0.1')
         return self._label_printer

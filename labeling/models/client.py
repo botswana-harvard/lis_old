@@ -20,5 +20,5 @@ class Client(BaseLabUuidModel):
 
     class Meta:
         app_label = 'labeling'
-        db_table = 'lab_barcode_client'
+#         db_table = 'lab_barcode_client'
         ordering = ['ip', 'label_printer', ]

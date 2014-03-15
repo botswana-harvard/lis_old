@@ -6,6 +6,7 @@ from django.db import models
 # from edc.testing.tests.factories import TestModelFactory
 
 from ..classes import ModelLabel
+from ..models import LabelPrinter
 
 from .factories import LabelPrinterFactory, ClientFactory, ZplTemplateFactory
 
@@ -69,15 +70,43 @@ class ModelLabelTests(TestCase):
                 default=True,
                 template=self.default_zpl_template_string)
 
+    def test_zpl_template_not_set(self):
+        """Assert fails if template not set."""
+        label = ModelLabel()
+        test_model = TestModelFactory()
+        request = None
+        self.assertRaises(TypeError, label.print_label, request, test_model, update_messages=False, client_addr='127.0.0.1')
+
     def test_zpl_template(self):
         """Assert fails if template not set."""
         label = ModelLabel()
         test_model = TestModelFactory()
-        request_factory = RequestFactory()
-        request = request_factory.get('/')
-        msg, print_success = label.print_label(request, test_model, update_messages=False)
-        print msg
-        self.assertTrue(label.print_label(request, test_model, update_messages=False))
+        label.zpl_template = self.zpl_template
+
+    def test_print_label(self):
+        """Assert sends error message if printer is not known to lpr."""
+        test_model = TestModelFactory()
+        label = ModelLabel()
+        label.zpl_template = self.zpl_template
+        label.default_label_printer = self.label_printer_default
+        request = None
+        label.print_label(request, test_model, update_messages=False, client_addr='127.0.0.1')
+        self.assertIn('printer or class does not exist', label.error_message)
+
+    def test_label_printer(self):
+        """Assert fails if template not set."""
+        label = ModelLabel()
+        label.zpl_template = self.zpl_template
+        self.assertIsNotNone(label.label_printer)
+        self.assertTrue(isinstance(label.label_printer, LabelPrinter))
+
+    def test_label_printer1(self):
+        """Assert fails if template not set."""
+        label = ModelLabel()
+        test_model = TestModelFactory()
+        label.zpl_template = self.zpl_template
+        
+#         self.assertRaises(TypeError, label.print_label, request, test_model, update_messages=False, client_addr='127.0.0.1')
 
     def test_label_context(self):
         """Assert can refresh the label context with the model instance."""
