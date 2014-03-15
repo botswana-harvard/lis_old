@@ -23,4 +23,4 @@ class ZplTemplate(BaseLabUuidModel):
 
     class Meta:
         app_label = 'labeling'
-        db_table = 'lab_barcode_zpltemplate'
+#         db_table = 'lab_barcode_zpltemplate'
