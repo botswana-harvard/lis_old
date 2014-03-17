@@ -13,6 +13,7 @@ class AliquotLabel(ModelLabel):
         super(AliquotLabel, self).__init__()
         template_name = 'aliquot_label'
         if not ZplTemplate.objects.filter(name=template_name):
+            # TODO: add initials of phlebotomist
             template_string = ('^XA'
                 '^FO300,15^A0N,20,20^FD${protocol} Site ${site} Type ${aliquot_type} ${aliquot_count}${primary}^FS'
                 '^FO300,34^BY1,3.0^BCN,50,N,N,N'
