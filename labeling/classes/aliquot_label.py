@@ -15,7 +15,7 @@ class AliquotLabel(ModelLabel):
         if not ZplTemplate.objects.filter(name=template_name):
             # TODO: add initials of phlebotomist
             template_string = ('^XA'
-                '^FO300,15^A0N,20,20^FD${protocol} Site ${site} Type ${aliquot_type} ${aliquot_count}${primary}^FS'
+                '^FO300,15^A0N,20,20^FD${protocol} Site ${site} ${clinician_initials}   ${aliquot_type} ${aliquot_count}${primary}^FS'
                 '^FO300,34^BY1,3.0^BCN,50,N,N,N'
                 '^BY^FD${aliquot_identifier}^FS'
                 '^FO300,92^A0N,20,20^FD${aliquot_identifier}^FS'
@@ -43,7 +43,8 @@ class AliquotLabel(ModelLabel):
             'primary': primary,
             'barcode_value': aliquot.barcode_value(),
             'protocol': aliquot.aliquot_identifier[0:3],
-            'site': aliquot.aliquot_identifier[3:5]
+            'site': aliquot.aliquot_identifier[3:5],
+            'clinician_initials': aliquot.receive.clinician_initials,
             })
 #         if 'hiv_status_code' in dir(aliquot):
 #             custom.update({'hiv_status_code': str(aliquot.hiv_status_code()), })
