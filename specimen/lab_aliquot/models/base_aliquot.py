@@ -43,7 +43,7 @@ class BaseAliquot (BaseLabListUuidModel):
         max_length=50,
         null=True,
         blank=True)
-    import_datetime = models.DateTimeField(null=True)
+    import_datetime = models.DateTimeField(null=True, editable=False)
 
     def __unicode__(self):
         return '%s' % (self.aliquot_identifier)
