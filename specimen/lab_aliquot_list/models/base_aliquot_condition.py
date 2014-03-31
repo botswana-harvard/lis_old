@@ -1,13 +1,14 @@
-from django.db import models
 from lis.base.model.models import BaseLabListModel
+
+from ..managers import AliquotConditionManager
 
 
 class BaseAliquotCondition(BaseLabListModel):
 
-    objects = models.Manager()
+    objects = AliquotConditionManager()
 
     def __unicode__(self):
-        return "%s: %s" % (self.short_name.upper(), self.name)
+        return "{0}: {1}".format(self.short_name.upper(), self.name)
 
     class Meta:
         abstract = True
