@@ -1,7 +1,8 @@
 from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured
 
-from .classes import Label, QuerysetLabel
+from .classes import Label, QuerysetLabel, AliquotLabel
+from .exceptions import PrinterException
 from .models import LabelPrinter
 
 
@@ -38,3 +39,14 @@ def print_requisition_label(modeladmin, request, requisitions):
                                  'cannot be printed until the specimen is '
                                  'received.'.format(requisition.requisition_identifier,))
 print_requisition_label.short_description = "LABEL: print requisition label"
+
+
+def print_aliquot_label(modeladmin, request, aliquots):
+    """ Prints an aliquot label."""
+    aliquot_label = AliquotLabel()
+    try:
+        for aliquot in aliquots:
+            aliquot_label.print_label_for_aliquot(request, aliquot)
+    except PrinterException as e:
+        messages.add_message(request, messages.ERROR, e.value)
+print_aliquot_label.short_description = "LABEL: print aliquot label"
