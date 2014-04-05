@@ -70,6 +70,6 @@ class Patient(BaseLabUuidModel):
 
     class Meta:
         ordering = ["subject_identifier"]
-        unique_together = ['subject_identifier', ]
+        #unique_together = ['subject_identifier', ]
         app_label = 'lab_patient'
         db_table = 'bhp_lab_registration_patient'
