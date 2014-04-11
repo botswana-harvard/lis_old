@@ -73,6 +73,11 @@ class BaseAliquot (BaseLabListUuidModel):
         editable=False,
         help_text="non-user helper field to simplify search and filtering")
 
+    is_packed = models.BooleanField(
+        verbose_name='packed',
+        default=False,
+        )
+
     receive_identifier = models.CharField(
         max_length=25,
         null=True,
@@ -88,6 +93,9 @@ class BaseAliquot (BaseLabListUuidModel):
 
     def get_subject_identifier(self):
         return self.subject_identifier
+
+    def get_visit(self):
+        return self.get_visit_model().objects.get(subject_identifier=self.get_subject_identifier())
 
     def drawn(self):
         return self.receive.drawn_datetime
