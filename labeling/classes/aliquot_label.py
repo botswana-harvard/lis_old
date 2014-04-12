@@ -13,16 +13,15 @@ class AliquotLabel(ModelLabel):
         super(AliquotLabel, self).__init__()
         template_name = 'aliquot_label'
         if not ZplTemplate.objects.filter(name=template_name):
-            # TODO: add initials of phlebotomist
-            template_string = ('^XA'
-                '^FO300,15^A0N,20,20^FD${protocol} Site ${site} ${clinician_initials}   ${aliquot_type} ${aliquot_count}${primary}^FS'
-                '^FO300,34^BY1,3.0^BCN,50,N,N,N'
-                '^BY^FD${aliquot_identifier}^FS'
-                '^FO300,92^A0N,20,20^FD${aliquot_identifier}^FS'
-                '^FO300,112^A0N,20,20^FD${subject_identifier} (${initials})^FS'
-                '^FO300,132^A0N,20,20^FDDOB: ${dob} ${gender}^FS'
-                '^FO300,152^A0N,25,20^FD${drawn_datetime}^FS'
-                '^XZ')
+            template_string = ("""^XA
+                ^FO300,15^A0N,20,20^FD${protocol} Site ${site} ${clinician_initials}   ${aliquot_type} ${aliquot_count}${primary}^FS
+                ^FO300,34^BY1,3.0^BCN,50,N,N,N
+                ^BY^FD${aliquot_identifier}^FS
+                ^FO300,92^A0N,20,20^FD${aliquot_identifier}^FS
+                ^FO300,112^A0N,20,20^FD${subject_identifier} (${initials})^FS
+                ^FO300,132^A0N,20,20^FDDOB: ${dob} ${gender}^FS
+                ^FO300,152^A0N,25,20^FD${drawn_datetime}^FS
+                ^XZ""")
             self.zpl_template = ZplTemplate.objects.create(
                 name=template_name,
                 template=template_string)
