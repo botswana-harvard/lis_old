@@ -8,20 +8,21 @@ from .label import Label
 class ModelLabel(Label):
     """ Print a label building the template and context from the model."""
     def __init__(self):
-        self._model_instance = None
-        self.label_context = {}
         super(ModelLabel, self).__init__()
+        self._model_instance = None
 
-    def print_label(self, request, model_instance, copies=None):
+    def print_label(self, request, model_instance, copies=None, update_messages=True, client_addr=None):
+        if request:
+            client_addr = request.META.get('REMOTE_ADDR')
         self.model_instance = model_instance
-        if not self.zpl_template:
-            self.zpl_template = self.default_template
         copies = copies or 1
-        msg, success = super(ModelLabel, self).print_label(copies, request.META.get('REMOTE_ADDR'))
-        if not success:
-            messages.add_message(request, messages.ERROR, msg)
-        else:
-            messages.add_message(request, messages.SUCCESS, msg)
+        msg, err_msg, print_success = super(ModelLabel, self).print_label(copies, client_addr)
+        if update_messages:
+            if err_msg:
+                messages.add_message(request, messages.ERROR, err_msg)
+            if msg:
+                messages.add_message(request, messages.SUCCESS, msg)
+        return msg, err_msg, print_success
 
     @property
     def model_instance(self):
@@ -43,7 +44,4 @@ class ModelLabel(Label):
             else:
                 self.label_context.update({field.attname: getattr(self.model_instance, field.attname, field.attname)})
         self.label_context.update({'barcode_value': self.model_instance.barcode_value()})
-
-    @property
-    def default_zpl_template_name(self):
-        return '{0} Template'.format(self.model_instance._meta.object_name)
+        return True
