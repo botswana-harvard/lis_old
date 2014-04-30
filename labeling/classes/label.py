@@ -137,7 +137,10 @@ class Label(object):
             elif self.default_label_printer:
                 self._label_printer = self.default_label_printer
             else:
-                # last try, a local printer?
+                #local default printer
+                if LabelPrinter.objects.filter(cups_server_ip='127.0.0.1', default=True).count() == 1:
+                    self._label_printer = LabelPrinter.objects.get(cups_server_ip='127.0.0.1', default=True)
+                # last try, any local printer?
                 if LabelPrinter.objects.filter(cups_server_ip='127.0.0.1').count() == 1:
                         self._label_printer = LabelPrinter.objects.get(cups_server_ip='127.0.0.1')
         return self._label_printer
