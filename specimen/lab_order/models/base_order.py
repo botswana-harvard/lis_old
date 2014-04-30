@@ -1,6 +1,9 @@
 from django.db import models
+
 from edc.base.model.validators import datetime_not_future
+
 from lis.base.model.models import BaseLabUuidModel
+
 from ..choices import ORDER_STATUS
 
 
@@ -11,6 +14,7 @@ class BaseOrder(BaseLabUuidModel):
         max_length=25,
         help_text='Allocated internally',
         db_index=True,
+        unique=True,
         editable=False)
     order_datetime = models.DateTimeField(
         verbose_name='Order Date',
