@@ -51,3 +51,6 @@ class AliquotManager(models.Manager):
                     aliquot_type=aliquot_type)
 
         return aliquot_identifier
+
+    def get_by_natural_key(self, aliquot_identifier):
+        return self.get(aliquot_identifier=aliquot_identifier)

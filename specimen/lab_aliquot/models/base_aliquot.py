@@ -91,6 +91,9 @@ class BaseAliquot (BaseLabListUuidModel):
         self.receive_identifier = self.receive.receive_identifier
         super(BaseAliquot, self).save(*args, **kwargs)
 
+    def natural_key(self):
+        return (self.aliquot_identifier,)
+
     def get_subject_identifier(self):
         return self.subject_identifier
 
