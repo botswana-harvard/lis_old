@@ -154,6 +154,7 @@ class GradeFlag(Flag):
         """Returns a list of reference range items for the LLN, ULN calculation."""
         reference_flag = ReferenceFlag(
             self.subject_identifier,
+            self.subject_type,
             ('reference_range_list', get_model('lab_clinic_reference', 'ReferenceRangeListItem')),
             self.test_code,
             self.gender,
