@@ -1,9 +1,9 @@
 from django.db import models
-from lis.base.model.models import BaseLabUuidModel
+from edc.base.model.models import BaseUuidModel
 from .label_printer import LabelPrinter
 
 
-class Client(BaseLabUuidModel):
+class Client(BaseUuidModel):
     """A model that links client or user's machine to a printer by IP address."""
     ip = models.IPAddressField()
 

@@ -1,9 +1,9 @@
 from django.db import models
-from lis.base.model.models import BaseLabUuidModel
+from edc.base.model.models import BaseUuidModel
 from .zpl_template import ZplTemplate
 
 
-class TestLabel(BaseLabUuidModel):
+class TestLabel(BaseUuidModel):
 
     identifier = models.CharField(max_length=50)
 
