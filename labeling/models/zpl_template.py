@@ -1,8 +1,8 @@
 from django.db import models
-from lis.base.model.models import BaseLabUuidModel
+from edc.base.model.models import BaseUuidModel
 
 
-class ZplTemplate(BaseLabUuidModel):
+class ZplTemplate(BaseUuidModel):
     """A model of the templates used for formating barcodes in the ZPL template language."""
     name = models.CharField(max_length=50, unique=True)
 
