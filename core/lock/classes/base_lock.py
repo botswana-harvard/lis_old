@@ -40,7 +40,7 @@ class BaseLock(object):
                 self.lock = self.lock_model.objects.using(self.db).create(lock_name=lock_name)
                 self.lock_name = lock_name
             except IntegrityError:
-                self.lock = None
+                self.lock = self.lock_model.objects.using(self.db).get(lock_name=lock_name)
                 logger.warning('  Warning: Unable to set a lock to import for {0}. '
                                'One already exists.'.format(lock_name))
             except DatabaseError as e:
