@@ -1,9 +1,9 @@
 from django.db import models
 
-from lis.base.model.models import BaseLabUuidModel
+from edc.base.model.models import BaseUuidModel
 
 
-class LabelPrinter(BaseLabUuidModel):
+class LabelPrinter(BaseUuidModel):
     """A model of the printer name and IP address."""
     cups_printer_name = models.CharField(max_length=50, unique=True)
 
