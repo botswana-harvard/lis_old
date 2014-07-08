@@ -82,111 +82,112 @@ class Dmis(BaseDmis):
             else:
                 lock_name = kwargs.get('protocol', None)
         import_history = ImportHistory(self.lab_db, lock_name)
-        if import_history.start():
-            # start with the receiving records. If a receiving record (LAB01) has not been modified
-            # on the dmis, nothing further will happen to it nor any of its related data (order, result, resultitem, ...).
-            dmis_receives = self._fetch_dmis_receive_rows(import_history, **kwargs)
-            if dmis_receives:
-                # some of the structure here is to limit the number of calls to the SQL Server
-                rowcount = len(dmis_receives)
-                already_received = []
-                protocol = None
-                sites = {}
-                patients = {}
-                panel_ids = {}
-                accounts = {}
-                for dmis_receive in dmis_receives:
-                    # check for the lock and stop everything if not found
-                    if not import_history.locked:
-                        # lock was deleted by another user
-                        break
-                    rowcount -= 1
-                    # create one receive record per sample (dmis may have more than one for
-                    # the same sample!)
-                    if not dmis_receive.receive_identifier in already_received:
-                        # for each protocol, site or account check if it is in the list first.
-                        # If not, fetch or create and add to the list.
-                        already_received.append(dmis_receive.receive_identifier)
-                        if not protocol:
-                            protocol = self._fetch_or_create_protocol(dmis_receive.protocol_identifier)
-                        if dmis_receive.site_identifier not in [site_identifier for site_identifier in sites.iterkeys()]:
-                            sites[dmis_receive.site_identifier] = self._fetch_or_create_site(dmis_receive.site_identifier)
-                        if dmis_receive.protocol_identifier not in [account_name for account_name in accounts.iterkeys()]:
-                            accounts[dmis_receive.protocol_identifier] = self._fetch_or_create_account(dmis_receive.protocol_identifier)
-                        # for a patient, just fetch or create, no need for a list
-                        patients[dmis_receive.subject_identifier] = self._create_or_update_patient(
-                            account=accounts[dmis_receive.protocol_identifier],
-                            subject_identifier=dmis_receive.subject_identifier,
-                            gender=dmis_receive.gender,
-                            dob=dmis_receive.dob,
-                            initials=dmis_receive.initials)
-                        # gather everything needed to create a new Receive instance into rcv_row
-                        rcv_row = self.get_receive_row_from_cursor(dmis_receive)
-                        rcv_row.protocol = protocol
-                        rcv_row.site = sites[dmis_receive.site_identifier]
-                        rcv_row.patient = patients[dmis_receive.subject_identifier]
-                        receive = self._create_or_update_receive(rcv_row, rowcount)
-                        del rcv_row
-                    # gather what is needed to create an order instance,
-                    # note: dmis_receive has the order information in it as well
-                    ord_row = self.get_order_row_from_cursor(dmis_receive)
-                    # data model is receive -> aliquot -> order
-                    ord_row.aliquot = self._create_or_update_aliquot(receive, dmis_receive.tid)
-                    # determine the order.panel from tid or else panel_id
-                    if dmis_receive.tid and dmis_receive.tid != '-9':
-                        if dmis_receive.tid not in [tid for tid in panel_ids.iterkeys()]:
-                            panel_ids[dmis_receive.tid] = self._fetch_or_create_panel(dmis_receive.panel_id, ord_row.tid)
-                        ord_row.panel = panel_ids[dmis_receive.tid]
-                    elif dmis_receive.panel_id and dmis_receive.panel_id != '-9':
-                        if dmis_receive.panel_id not in [panel_id for panel_id in panel_ids.iterkeys()]:
-                            panel_ids[dmis_receive.panel_id] = self._fetch_or_create_panel(dmis_receive.panel_id, ord_row.tid)
-                        ord_row.panel = panel_ids[dmis_receive.panel_id]
-                    else:
-                        # this will cause an error
-                        ord_row.panel = None
-                    # force an order to be recreated on import from dmis by deleting the existing one on lis
-                    Order.objects.using(self.lab_db).filter(aliquot__receive=receive).delete()
-                    if not ord_row.order_identifier:
-                        # create a PENDING order instance using the receive_identifier
-                        # as the order_identifier. (Dmis has no corresponding record)
-                        ord_row.order_identifier = dmis_receive.receive_identifier
-                        order = self._create_or_update_order(ord_row)
-                    else:
-                        # delete the PENDING order instance created above. (Dmis created the
-                        # order when the results became available.)
-                        # Order.objects.using(self.lab_db).filter(order_identifier=dmis_receive.receive_identifier).delete()
-                        # create the order using the dmis order_identifier
-                        order = self._create_or_update_order(ord_row)
-                        del ord_row
-                        if order:
-                            result, result_modified = self._create_or_update_result(order)
-                            if result and result_modified:
-                                # delete existing result items. The dmis is the master, so if
-                                # an item is added or removed from dmis it must reflect
-                                ResultItem.objects.using(self.lab_db).filter(result=result).delete()
-                                resultitem_rows = self._fetch_dmis_resultitem_rows(result.order.order_identifier)
-                                max_validation_datetime = None
-                                max_validation_user = None
-                                # loop thru result items for validation_datetime and get the max datetime
-                                for ritem in resultitem_rows:
-                                    result_item = self._create_or_update_resultitem(result, ritem)
-                                    result_item = self._validate_result_item(result, result_item)
-                                    if not max_validation_datetime:
-                                        max_validation_datetime = result_item.validation_datetime
-                                        max_validation_user = result_item.validation_username
-                                    if result_item.validation_datetime:
-                                        if max_validation_datetime < result_item.validation_datetime:
+        try:
+            if import_history.start():
+                # start with the receiving records. If a receiving record (LAB01) has not been modified
+                # on the dmis, nothing further will happen to it nor any of its related data (order, result, resultitem, ...).
+                dmis_receives = self._fetch_dmis_receive_rows(import_history, **kwargs)
+                if dmis_receives:
+                    # some of the structure here is to limit the number of calls to the SQL Server
+                    rowcount = len(dmis_receives)
+                    already_received = []
+                    protocol = None
+                    sites = {}
+                    patients = {}
+                    panel_ids = {}
+                    accounts = {}
+                    for dmis_receive in dmis_receives:
+                        # check for the lock and stop everything if not found
+                        if not import_history.locked:
+                            # lock was deleted by another user
+                            break
+                        rowcount -= 1
+                        # create one receive record per sample (dmis may have more than one for
+                        # the same sample!)
+                        if not dmis_receive.receive_identifier in already_received:
+                            # for each protocol, site or account check if it is in the list first.
+                            # If not, fetch or create and add to the list.
+                            already_received.append(dmis_receive.receive_identifier)
+                            if not protocol:
+                                protocol = self._fetch_or_create_protocol(dmis_receive.protocol_identifier)
+                            if dmis_receive.site_identifier not in [site_identifier for site_identifier in sites.iterkeys()]:
+                                sites[dmis_receive.site_identifier] = self._fetch_or_create_site(dmis_receive.site_identifier)
+                            if dmis_receive.protocol_identifier not in [account_name for account_name in accounts.iterkeys()]:
+                                accounts[dmis_receive.protocol_identifier] = self._fetch_or_create_account(dmis_receive.protocol_identifier)
+                            # for a patient, just fetch or create, no need for a list
+                            patients[dmis_receive.subject_identifier] = self._create_or_update_patient(
+                                account=accounts[dmis_receive.protocol_identifier],
+                                subject_identifier=dmis_receive.subject_identifier,
+                                gender=dmis_receive.gender,
+                                dob=dmis_receive.dob,
+                                initials=dmis_receive.initials)
+                            # gather everything needed to create a new Receive instance into rcv_row
+                            rcv_row = self.get_receive_row_from_cursor(dmis_receive)
+                            rcv_row.protocol = protocol
+                            rcv_row.site = sites[dmis_receive.site_identifier]
+                            rcv_row.patient = patients[dmis_receive.subject_identifier]
+                            receive = self._create_or_update_receive(rcv_row, rowcount)
+                            del rcv_row
+                        # gather what is needed to create an order instance,
+                        # note: dmis_receive has the order information in it as well
+                        ord_row = self.get_order_row_from_cursor(dmis_receive)
+                        # data model is receive -> aliquot -> order
+                        ord_row.aliquot = self._create_or_update_aliquot(receive, dmis_receive.tid)
+                        # determine the order.panel from tid or else panel_id
+                        if dmis_receive.tid and dmis_receive.tid != '-9':
+                            if dmis_receive.tid not in [tid for tid in panel_ids.iterkeys()]:
+                                panel_ids[dmis_receive.tid] = self._fetch_or_create_panel(dmis_receive.panel_id, ord_row.tid)
+                            ord_row.panel = panel_ids[dmis_receive.tid]
+                        elif dmis_receive.panel_id and dmis_receive.panel_id != '-9':
+                            if dmis_receive.panel_id not in [panel_id for panel_id in panel_ids.iterkeys()]:
+                                panel_ids[dmis_receive.panel_id] = self._fetch_or_create_panel(dmis_receive.panel_id, ord_row.tid)
+                            ord_row.panel = panel_ids[dmis_receive.panel_id]
+                        else:
+                            # this will cause an error
+                            ord_row.panel = None
+                        # force an order to be recreated on import from dmis by deleting the existing one on lis
+                        Order.objects.using(self.lab_db).filter(aliquot__receive=receive).delete()
+                        if not ord_row.order_identifier:
+                            # create a PENDING order instance using the receive_identifier
+                            # as the order_identifier. (Dmis has no corresponding record)
+                            ord_row.order_identifier = dmis_receive.receive_identifier
+                            order = self._create_or_update_order(ord_row)
+                        else:
+                            # delete the PENDING order instance created above. (Dmis created the
+                            # order when the results became available.)
+                            # Order.objects.using(self.lab_db).filter(order_identifier=dmis_receive.receive_identifier).delete()
+                            # create the order using the dmis order_identifier
+                            order = self._create_or_update_order(ord_row)
+                            del ord_row
+                            if order:
+                                result, result_modified = self._create_or_update_result(order)
+                                if result and result_modified:
+                                    # delete existing result items. The dmis is the master, so if
+                                    # an item is added or removed from dmis it must reflect
+                                    ResultItem.objects.using(self.lab_db).filter(result=result).delete()
+                                    resultitem_rows = self._fetch_dmis_resultitem_rows(result.order.order_identifier)
+                                    max_validation_datetime = None
+                                    max_validation_user = None
+                                    # loop thru result items for validation_datetime and get the max datetime
+                                    for ritem in resultitem_rows:
+                                        result_item = self._create_or_update_resultitem(result, ritem)
+                                        result_item = self._validate_result_item(result, result_item)
+                                        if not max_validation_datetime:
                                             max_validation_datetime = result_item.validation_datetime
                                             max_validation_user = result_item.validation_username
-                                if max_validation_datetime and max_validation_user:
-                                    self._release_result(result, max_validation_datetime, max_validation_user)
-                                else:
-                                    logger.info('    NOT RELEASING {0} resulted on {1} (datetime:{2}, user:{3})'.format(order.order_identifier,
-                                                                                                                        order.order_datetime.strftime("%Y-%m-%d"),
-                                                                                                                        max_validation_datetime,
-                                                                                                                        max_validation_user))
-
-        import_history.finish()
+                                        if result_item.validation_datetime:
+                                            if max_validation_datetime < result_item.validation_datetime:
+                                                max_validation_datetime = result_item.validation_datetime
+                                                max_validation_user = result_item.validation_username
+                                    if max_validation_datetime and max_validation_user:
+                                        self._release_result(result, max_validation_datetime, max_validation_user)
+                                    else:
+                                        logger.info('    NOT RELEASING {0} resulted on {1} (datetime:{2}, user:{3})'.format(order.order_identifier,
+                                                                                                                            order.order_datetime.strftime("%Y-%m-%d"),
+                                                                                                                            max_validation_datetime,
+                                                                                                                            max_validation_user))
+        finally:
+            import_history.finish()
         return None
 
     def fetch_or_create_testcode(self, code):
