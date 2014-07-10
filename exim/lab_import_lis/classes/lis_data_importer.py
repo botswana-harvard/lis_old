@@ -75,121 +75,129 @@ class LisDataImporter(object):
             else:
                 lock_name = protocol_identifier
         import_history = ImportHistory(self.db, lock_name)
-        if import_history.start():
-            # import all received
-            modified_aliquots = []
-            modified_orders = []
-            modified_results = []
-            if subject_identifier:
-                logger.info('  subject identifier specified: "{0}"'.format(subject_identifier))
-                registered_subject = RegisteredSubject.objects.get(subject_identifier__iexact=unicode(subject_identifier))
+        try:
+            if import_history.start():
+                # import all received
+                modified_aliquots = []
+                modified_orders = []
+                modified_results = []
+                if subject_identifier:
+                    logger.info('  subject identifier specified: "{0}"'.format(subject_identifier))
+                    registered_subject = RegisteredSubject.objects.get(subject_identifier__iexact=unicode(subject_identifier))
+                    if import_history.last_import_datetime:
+                        qset = Q()
+                        q = (Q(modified__gte=import_history.last_import_datetime) | Q(created__gte=import_history.last_import_datetime))
+                        qset.add(q, Q.AND)
+                        modified_aliquots = self._get_modified(LisAliquot, self.db, 'aliquot_identifier', qset, Q(receive__patient=registered_subject.subject_identifier))
+                        qset = Q()
+                        qset.add(q, Q.AND)
+                        modified_orders = self._get_modified(LisOrder, self.db, 'order_identifier', qset, Q(aliquot__receive__patient=registered_subject.subject_identifier))
+                        qset = Q()
+                        qset.add(q, Q.AND)
+                        modified_results = self._get_modified(LisResult, self.db, 'result_identifier', qset, Q(order__aliquot__receive__patient=registered_subject.subject_identifier))
+                    qset = Q(patient__subject_identifier=registered_subject.subject_identifier)
+                elif protocol_identifier:
+                    protocol = Protocol.objects.using(self.db).get(protocol_identifier__iexact=protocol_identifier)
+                    if import_history.last_import_datetime:
+                        qset = Q()
+                        q = (Q(modified__gte=import_history.last_import_datetime) | Q(created__gte=import_history.last_import_datetime))
+                        qset.add(q, Q.AND)
+                        modified_aliquots = self._get_modified(LisAliquot, self.db, 'aliquot_identifier', qset, Q(receive__protocol=protocol))
+                        qset = Q()
+                        qset.add(q, Q.AND)
+                        modified_orders = self._get_modified(LisOrder, self.db, 'order_identifier', qset, Q(aliquot__receive__protocol=protocol))
+                        qset = Q()
+                        qset.add(q, Q.AND)
+                        modified_results = self._get_modified(LisResult, self.db, 'result_identifier', qset, Q(order__aliquot__receive__protocol=protocol))
+                    qset = Q(protocol=protocol)
+                else:
+                    qset = Q()
+                # start by filtering at the top of the relational model with Receive and
+                # adding and/or updating anything down the cascade
                 if import_history.last_import_datetime:
-                    qset = Q()
-                    q = (Q(modified__gte=import_history.last_import_datetime) | Q(created__gte=import_history.last_import_datetime))
-                    qset.add(q, Q.AND)
-                    modified_aliquots = self._get_modified(LisAliquot, self.db, 'aliquot_identifier', qset, Q(receive__patient=registered_subject.subject_identifier))
-                    qset = Q()
-                    qset.add(q, Q.AND)
-                    modified_orders = self._get_modified(LisOrder, self.db, 'order_identifier', qset, Q(aliquot__receive__patient=registered_subject.subject_identifier))
-                    qset = Q()
-                    qset.add(q, Q.AND)
-                    modified_results = self._get_modified(LisResult, self.db, 'result_identifier', qset, Q(order__aliquot__receive__patient=registered_subject.subject_identifier))
-                qset = Q(patient__subject_identifier=registered_subject.subject_identifier)
-            elif protocol_identifier:
-                protocol = Protocol.objects.using(self.db).get(protocol_identifier__iexact=protocol_identifier)
-                if import_history.last_import_datetime:
-                    qset = Q()
-                    q = (Q(modified__gte=import_history.last_import_datetime) | Q(created__gte=import_history.last_import_datetime))
-                    qset.add(q, Q.AND)
-                    modified_aliquots = self._get_modified(LisAliquot, self.db, 'aliquot_identifier', qset, Q(receive__protocol=protocol))
-                    qset = Q()
-                    qset.add(q, Q.AND)
-                    modified_orders = self._get_modified(LisOrder, self.db, 'order_identifier', qset, Q(aliquot__receive__protocol=protocol))
-                    qset = Q()
-                    qset.add(q, Q.AND)
-                    modified_results = self._get_modified(LisResult, self.db, 'result_identifier', qset, Q(order__aliquot__receive__protocol=protocol))
-                qset = Q(protocol=protocol)
-            else:
-                qset = Q()
-            # start by filtering at the top of the relational model with Receive and
-            # adding and/or updating anything down the cascade
-            if import_history.last_import_datetime:
-                qset.add((Q(modified__gte=import_history.last_import_datetime) | Q(created__gte=import_history.last_import_datetime)), Q.AND)
-            total = LisReceive.objects.using(self.db).filter(qset).count()
-            n = 0
-            logger.info('Preparing initial receive query...')
-            for lis_receive in LisReceive.objects.using(self.db).filter(qset).order_by('receive_datetime'):
-                n += 1
-                if not import_history.locked:
-                    # lock was deleted by another user
-                    break
-                logger.info('{0} / {1} Receiving {receive_identifier} for '
-                            '{subject_identifier}'.format(n, total, receive_identifier=lis_receive.receive_identifier,
-                                                          subject_identifier=lis_receive.patient.subject_identifier))
-                registered_subject = self._registered_subject_handler(lis_receive, Receive, 'receive_identifier')
-                if registered_subject:
-                    receive = self._import_model(lis_receive, Receive, 'receive_identifier', exclude_fields=None, registered_subject=registered_subject)
-                    for lis_aliquot in LisAliquot.objects.using(self.db).filter(receive__receive_identifier=receive.receive_identifier):
+                    qset.add((Q(modified__gte=import_history.last_import_datetime) | Q(created__gte=import_history.last_import_datetime)), Q.AND)
+                total = LisReceive.objects.using(self.db).filter(qset).count()
+                n = 0
+                logger.info('Preparing initial receive query...')
+                for lis_receive in LisReceive.objects.using(self.db).filter(qset).order_by('receive_datetime'):
+                    n += 1
+                    if not import_history.locked:
+                        # lock was deleted by another user
+                        break
+                    logger.info('{0} / {1} Receiving {receive_identifier} for '
+                                '{subject_identifier}'.format(n, total, receive_identifier=lis_receive.receive_identifier,
+                                                              subject_identifier=lis_receive.patient.subject_identifier))
+                    registered_subject = self._registered_subject_handler(lis_receive, Receive, 'receive_identifier')
+                    if registered_subject:
+                        receive = self._import_model(lis_receive, Receive, 'receive_identifier', exclude_fields=None, registered_subject=registered_subject)
+                        for lis_aliquot in LisAliquot.objects.using(self.db).filter(receive__receive_identifier=receive.receive_identifier):
+                            aliquot = self._import_model(lis_aliquot, Aliquot, 'aliquot_identifier',
+                                                         exclude_fields=None, receive=receive)
+                            if aliquot:
+                                try:
+                                    modified_aliquots.remove(aliquot.aliquot_identifier)
+                                except ValueError:
+                                    pass
+                                for lis_order in LisOrder.objects.using(self.db).filter(aliquot__aliquot_identifier=aliquot.aliquot_identifier):
+                                    order = self._import_model(lis_order, Order, 'order_identifier',
+                                                               exclude_fields=None, aliquot=aliquot)
+                                    if order:
+                                        try:
+                                            modified_orders.remove(order.order_identifier)
+                                        except ValueError:
+                                            pass
+                                        for lis_result in LisResult.objects.using(self.db).filter(order__order_identifier=order.order_identifier):
+                                            result = self._import_model(lis_result, Result, 'result_identifier',
+                                                                        exclude_fields=None, order=order)
+                                            if result:
+                                                try:
+                                                    modified_results.remove(result.result_identifier)
+                                                except ValueError:
+                                                    pass
+                                                for lis_result_item in LisResultItem.objects.using(self.db).filter(result__result_identifier=result.result_identifier, validation_status='F'):
+                                                    # only importing where validation_status='F'.
+                                                    try:
+                                                        self._import_result_item_model(lis_result_item, result)
+                                                    except Exception as e:
+                                                        pass
+                                                # update order status
+                                                try:
+                                                    order.save()
+                                                except Exception as e:
+                                                    pass
+                # update any left in the modified lists that were not included above
+                # since the receive record was not modified
+                logger.info('Checking for data modified after the receiving instances...')
+                logger.info('    Aliquots...')
+                for lis_aliquot in LisAliquot.objects.using(self.db).filter(aliquot_identifier__in=modified_aliquots):
+                    if Receive.objects.filter(receive_identifier=lis_aliquot.receive.receive_identifier):
+                        receive = Receive.objects.get(receive_identifier=lis_aliquot.receive.receive_identifier)
                         aliquot = self._import_model(lis_aliquot, Aliquot, 'aliquot_identifier',
                                                      exclude_fields=None, receive=receive)
-                        if aliquot:
-                            try:
-                                modified_aliquots.remove(aliquot.aliquot_identifier)
-                            except ValueError:
-                                pass
-                            for lis_order in LisOrder.objects.using(self.db).filter(aliquot__aliquot_identifier=aliquot.aliquot_identifier):
-                                order = self._import_model(lis_order, Order, 'order_identifier',
-                                                           exclude_fields=None, aliquot=aliquot)
-                                if order:
-                                    try:
-                                        modified_orders.remove(order.order_identifier)
-                                    except ValueError:
-                                        pass
-                                    for lis_result in LisResult.objects.using(self.db).filter(order__order_identifier=order.order_identifier):
-                                        result = self._import_model(lis_result, Result, 'result_identifier',
-                                                                    exclude_fields=None, order=order)
-                                        if result:
-                                            try:
-                                                modified_results.remove(result.result_identifier)
-                                            except ValueError:
-                                                pass
-                                            for lis_result_item in LisResultItem.objects.using(self.db).filter(result__result_identifier=result.result_identifier, validation_status='F'):
-                                                # only importing where validation_status='F'.
-                                                self._import_result_item_model(lis_result_item, result)
-                                            # update order status
-                                            order.save()
-            # update any left in the modified lists that were not included above
-            # since the receive record was not modified
-            logger.info('Checking for data modified after the receiving instances...')
-            logger.info('    Aliquots...')
-            for lis_aliquot in LisAliquot.objects.using(self.db).filter(aliquot_identifier__in=modified_aliquots):
-                if Receive.objects.filter(receive_identifier=lis_aliquot.receive.receive_identifier):
-                    receive = Receive.objects.get(receive_identifier=lis_aliquot.receive.receive_identifier)
-                    aliquot = self._import_model(lis_aliquot, Aliquot, 'aliquot_identifier',
-                                                 exclude_fields=None, receive=receive)
-                    if aliquot.aliquot_condition.pk == '10':
-                        TypeError('Invalid ')
-                    modified_aliquots.remove(aliquot.aliquot_identifier)
-            logger.info('    Orders...')
-            for lis_order in LisOrder.objects.using(self.db).filter(order_identifier__in=modified_orders):
-                if Aliquot.objects.filter(aliquot_identifier=lis_order.aliquot.aliquot_identifier):
-                    aliquot = Aliquot.objects.get(aliquot_identifier=lis_order.aliquot.aliquot_identifier)
-                    order = self._import_model(lis_order, Order, 'order_identifier',
-                                               exclude_fields=None, aliquot=aliquot)
-                    modified_orders.remove(order.order_identifier)
-            logger.info('    Results and ResultItems...')
-            for lis_result in LisResult.objects.using(self.db).filter(result_identifier__in=modified_results):
-                if Order.objects.filter(order_identifier=lis_result.order.order_identifier):
-                    order = Order.objects.get(order_identifier=lis_result.order.order_identifier)
-                    result = self._import_model(lis_result, Result, 'result_identifier',
-                                                exclude_fields=None, order=order)
-                    modified_results.remove(result.result_identifier)
-                    for lis_result_item in LisResultItem.objects.using(self.db).filter(result__result_identifier=result.result_identifier):
-                        self._import_result_item_model(lis_result_item, result)
-        self.delete_pending_orphans(subject_identifier=subject_identifier)
-        orders = Order.objects.flag_duplicates()
-        logger.info('    flagged {0} Orders as DUPLICATE.'.format(len(orders)))
-        return import_history.finish()
+                        if aliquot.aliquot_condition.pk == '10':
+                            TypeError('Invalid ')
+                        modified_aliquots.remove(aliquot.aliquot_identifier)
+                logger.info('    Orders...')
+                for lis_order in LisOrder.objects.using(self.db).filter(order_identifier__in=modified_orders):
+                    if Aliquot.objects.filter(aliquot_identifier=lis_order.aliquot.aliquot_identifier):
+                        aliquot = Aliquot.objects.get(aliquot_identifier=lis_order.aliquot.aliquot_identifier)
+                        order = self._import_model(lis_order, Order, 'order_identifier',
+                                                   exclude_fields=None, aliquot=aliquot)
+                        modified_orders.remove(order.order_identifier)
+                logger.info('    Results and ResultItems...')
+                for lis_result in LisResult.objects.using(self.db).filter(result_identifier__in=modified_results):
+                    if Order.objects.filter(order_identifier=lis_result.order.order_identifier):
+                        order = Order.objects.get(order_identifier=lis_result.order.order_identifier)
+                        result = self._import_model(lis_result, Result, 'result_identifier',
+                                                    exclude_fields=None, order=order)
+                        modified_results.remove(result.result_identifier)
+                        for lis_result_item in LisResultItem.objects.using(self.db).filter(result__result_identifier=result.result_identifier):
+                            self._import_result_item_model(lis_result_item, result)
+            self.delete_pending_orphans(subject_identifier=subject_identifier)
+            orders = Order.objects.flag_duplicates()
+            logger.info('    flagged {0} Orders as DUPLICATE.'.format(len(orders)))
+        finally:
+            return import_history.finish()
 
     def _import_model(self, lis_source, target_cls, target_identifier_name, exclude_fields, **kwargs):
         """ Transfers values between two models for matching attributes.
