@@ -1,6 +1,7 @@
 from django.db import models
-from .test_code_group import TestCodeGroup
+
 from .base_test_code import BaseTestCode
+from .test_code_group import TestCodeGroup
 
 
 class TestCode(BaseTestCode):

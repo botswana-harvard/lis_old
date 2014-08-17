@@ -1,4 +1,5 @@
 from django.db import models
+
 from lis.base.model.models import BaseLabModel
 
 
@@ -7,8 +8,7 @@ class PanelGroup (BaseLabModel):
     name = models.CharField(
         verbose_name="Panel Group Name",
         max_length=25,
-        unique=True,
-        )
+        unique=True)
 
     def __unicode__(self):
         return self.name

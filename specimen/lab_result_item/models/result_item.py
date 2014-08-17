@@ -1,7 +1,10 @@
 from django.db import models
+
 from lis.specimen.lab_result.models import Result, ResultSource
 from lis.specimen.lab_test_code.models import TestCode
+
 from ..classes import ReferenceRangeFlag, LabGradeFlag
+
 from .base_result_item import BaseResultItem
 
 
@@ -11,7 +14,8 @@ class ResultItem(BaseResultItem):
 
     result = models.ForeignKey(Result)
 
-    result_item_source = models.ForeignKey(ResultSource,
+    result_item_source = models.ForeignKey(
+        ResultSource,
         verbose_name='Source',
         help_text='Reference to source of information, such as interface, manual, outside lab, ...',
         db_index=True)
@@ -49,7 +53,7 @@ class ResultItem(BaseResultItem):
     def get_result_document_url(self):
         return "/laboratory/result/document/%s/" % (self.result.result_identifier)
 
-    #TODO: get this to return a subject_identifier for the audit trial
+    # TODO: get this to return a subject_identifier for the audit trial
     def get_subject_identifier(self,):
         return ''
 

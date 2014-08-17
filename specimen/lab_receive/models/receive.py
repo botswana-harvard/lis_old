@@ -1,8 +1,10 @@
 from django.db import models
+
 from lis.core.bhp_research_protocol.models import Protocol
 from lis.core.bhp_research_protocol.models import Site
 from lis.specimen.lab_receive.classes import ReceiveIdentifier
 from lis.subject.lab_patient.models import Patient
+
 from .base_receive import BaseReceive
 
 

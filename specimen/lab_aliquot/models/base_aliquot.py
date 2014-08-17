@@ -10,12 +10,14 @@ from ..choices import ALIQUOT_STATUS, SPECIMEN_MEASURE_UNITS, SPECIMEN_MEDIUM
 
 class BaseAliquot (BaseLabListUuidModel):
 
-    primary_aliquot = models.ForeignKey('self',
+    primary_aliquot = models.ForeignKey(
+        'self',
         null=True,
         related_name='primary',
         editable=False)
 
-    source_aliquot = models.ForeignKey('self',
+    source_aliquot = models.ForeignKey(
+        'self',
         null=True,
         related_name='source',
         editable=False,
@@ -75,8 +77,7 @@ class BaseAliquot (BaseLabListUuidModel):
 
     is_packed = models.BooleanField(
         verbose_name='packed',
-        default=False,
-        )
+        default=False)
 
     receive_identifier = models.CharField(
         max_length=25,

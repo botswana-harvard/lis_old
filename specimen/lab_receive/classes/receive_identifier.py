@@ -1,6 +1,9 @@
 import logging
+
 from datetime import date
+
 from django.conf import settings
+
 from edc.core.identifier.classes import BaseSubjectIdentifier
 
 

@@ -1,23 +1,29 @@
 import logging
+
 from datetime import datetime
-from django.db.models import Q, get_model
+
 from django.conf import settings
-from django.db.models.fields import NOT_PROVIDED
 from django.core.exceptions import MultipleObjectsReturned
 from django.db import IntegrityError
 from django.db.models import ForeignKey
+from django.db.models import Q, get_model
+from django.db.models.fields import NOT_PROVIDED
+
 from edc.core.bhp_poll_mysql.poll_mysql import PollMySQL
 from edc.subject.registration.models import RegisteredSubject
+
+from edc.lab.lab_clinic_api.models import AliquotType, AliquotCondition
+from edc.lab.lab_clinic_api.models import Receive, Aliquot, Order, Result, ResultItem
+
 from lis.core.bhp_research_protocol.models import Protocol
-from lis.specimen.lab_receive.models import Receive as LisReceive
+from lis.exim.lab_import_lis.models import LisImportError
 from lis.specimen.lab_aliquot.models import Aliquot as LisAliquot
 from lis.specimen.lab_order.models import Order as LisOrder
+from lis.specimen.lab_receive.models import Receive as LisReceive
 from lis.specimen.lab_result.models import Result as LisResult
-from edc.lab.lab_clinic_api.models import Receive, Aliquot, Order, Result, ResultItem
-from edc.lab.lab_clinic_api.models import AliquotType, AliquotCondition
-from lis.exim.lab_import_lis.models import LisImportError
-from .import_history import ImportHistory
+
 from .convert_lis_attr import ConvertLisAttr
+from .import_history import ImportHistory
 
 
 logger = logging.getLogger(__name__)

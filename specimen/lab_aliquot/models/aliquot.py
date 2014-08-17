@@ -12,15 +12,18 @@ class Aliquot (BaseAliquot):
 
     receive = models.ForeignKey(Receive)
 
-    aliquot_type = models.ForeignKey(AliquotType,
+    aliquot_type = models.ForeignKey(
+        AliquotType,
         verbose_name="Aliquot Type")
 
-    aliquot_condition = models.ForeignKey(AliquotCondition,
+    aliquot_condition = models.ForeignKey(
+        AliquotCondition,
         verbose_name="Aliquot Condition",
         default=10,
         null=True)
 
-    parent_identifier = models.ForeignKey('self',
+    parent_identifier = models.ForeignKey(
+        'self',
         to_field='aliquot_identifier',
         blank=True,
         null=True)
