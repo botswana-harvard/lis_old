@@ -1,9 +1,10 @@
 from datetime import datetime, date
 from dateutil.relativedelta import relativedelta
 from optparse import make_option
+
 from django.core.mail import send_mail
-from django.db.models import get_model
 from django.core.management.base import BaseCommand, CommandError
+from django.db.models import get_model
 
 
 class Command(BaseCommand):
@@ -11,21 +12,24 @@ class Command(BaseCommand):
     imported into the local EDC 24 hrs
     """
     args = ('--email <email>  --sms <cellphone>')
+
     help = 'Manage labs_notification import.'
+
     option_list = BaseCommand.option_list + (
-        make_option('--email',
+        make_option(
+            '--email',
             dest='send_email',
             action='store_true',
             default=False,
-            help=('Send an email nofication.')),
-         )
+            help=('Send an email nofication.')))
+
     option_list += (
-        make_option('--sms',
+        make_option(
+            '--sms',
             dest='send_sms',
             action='store_true',
             default=False,
-            help=('Send SMS nofication.')),
-        )
+            help=('Send SMS nofication.')))
 
     def handle(self, *args, **options):
         import_age = 24
@@ -64,7 +68,7 @@ class Command(BaseCommand):
     def send_email(self, email_sender, recipient_list, import_age):
         subject = "{0}: No labs have been imported in {1}hrs".format(date.today(), import_age)
         body = "No labs have been imported from the LIS/DMIS for the past {0}. Check import_dmis and import_lis".format(import_age)
-        email_sent = send_mail(subject, body, email_sender, recipient_list, fail_silently=False)
+        send_mail(subject, body, email_sender, recipient_list, fail_silently=False)
 
     def get_import_results_count(self, import_age, cut_off_date):
         Result = get_model('lab_clinic_api', 'Result')

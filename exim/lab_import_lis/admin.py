@@ -1,5 +1,5 @@
 from django.contrib import admin
-from edc.base.admin.admin import BaseModelAdmin
+from edc.base.modeladmin.admin import BaseModelAdmin
 from .models import LisImportError, LisLockModel, LisImportHistoryModel
 from .actions import clear_stale_error_messages
 

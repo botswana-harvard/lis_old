@@ -1,8 +1,10 @@
 import re
 import logging
 import pyodbc
+
 from django.conf import settings
 from django.db.models import get_model
+
 from lis.specimen.lab_order.models import Order as LisOrder
 from lis.specimen.lab_result.models import Result as LisResult
 

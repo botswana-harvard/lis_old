@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-from ..models import ZplTemplate
-from ..forms import ZplTemplateForm
 from ..actions import print_test_label
+from ..forms import ZplTemplateForm
+from ..models import ZplTemplate
 
 
 class ZplTemplateAdmin(admin.ModelAdmin):

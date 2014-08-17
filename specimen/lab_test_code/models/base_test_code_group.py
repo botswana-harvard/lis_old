@@ -9,8 +9,7 @@ class BaseTestCodeGroup(BaseLabModel):
     name = models.CharField(
         max_length=25,
         null=True,
-        blank=True,
-        )
+        blank=True)
 
     objects = models.Manager()
 

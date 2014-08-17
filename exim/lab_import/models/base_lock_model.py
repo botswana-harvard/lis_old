@@ -1,4 +1,5 @@
 from django.db import models
+
 from lis.base.model.models import BaseLabUuidModel
 
 
@@ -11,6 +12,7 @@ class BaseLockModel(BaseLabUuidModel):
     ..seealso:: :class:DmisLock."""
 
     lock_name = models.CharField(max_length=50, unique=True)
+
     objects = models.Manager()
 
     def __unicode__(self):
