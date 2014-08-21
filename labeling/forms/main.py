@@ -1,5 +1,7 @@
 from django import forms
+
 from edc.base.form.forms import BaseModelForm
+
 from ..models import ZplTemplate, LabelPrinter
 
 
@@ -9,9 +11,7 @@ class LabelForm(BaseModelForm):
         max_length=25,
         label="Identifier",
         help_text="",
-        error_messages={'required': 'Please enter a valid identifier.'},
-        #initial=""
-        )
+        error_messages={'required': 'Please enter a valid identifier.'})
 
 
 class ZplTemplateForm (BaseModelForm):

@@ -1,33 +1,35 @@
 from django.db import models
-from lis.subject.lab_account.models import Account
-from lis.specimen.lab_test_code.models import TestCode
+
 from lis.specimen.lab_aliquot_list.models import AliquotType
-from .panel_group import PanelGroup
+from lis.specimen.lab_test_code.models import TestCode
+from lis.subject.lab_account.models import Account
+
 from .base_panel import BasePanel
+from .panel_group import PanelGroup
 
 
 class Panel(BasePanel):
 
     panel_group = models.ForeignKey(PanelGroup)
 
-    test_code = models.ManyToManyField(TestCode,
+    test_code = models.ManyToManyField(
+        TestCode,
         verbose_name='Test Codes',
-        help_text='Choose all that apply',
-        )
-    aliquot_type = models.ManyToManyField(AliquotType,
-        help_text='Choose all that apply',
-        )
+        help_text='Choose all that apply')
 
-    account = models.ManyToManyField(Account,
+    aliquot_type = models.ManyToManyField(
+        AliquotType,
+        help_text='Choose all that apply')
+
+    account = models.ManyToManyField(
+        Account,
         null=True,
-        blank=True
-        )
+        blank=True)
 
     dmis_panel_identifier = models.CharField(
         max_length=25,
         null=True,
-        blank=True,
-        )
+        blank=True)
 
     def __unicode__(self):
         return self.name

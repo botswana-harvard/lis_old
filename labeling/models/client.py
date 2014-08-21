@@ -1,5 +1,7 @@
 from django.db import models
+
 from edc.base.model.models import BaseUuidModel
+
 from .label_printer import LabelPrinter
 
 
@@ -11,7 +13,7 @@ class Client(BaseUuidModel):
         max_length=50,
         null=True,
         blank=True,
-        )
+    )
 
     label_printer = models.ForeignKey(LabelPrinter)
 

@@ -1,4 +1,5 @@
 from django.db import models
+
 from edc.base.model.models import BaseUuidModel
 
 
@@ -23,4 +24,3 @@ class ZplTemplate(BaseUuidModel):
 
     class Meta:
         app_label = 'labeling'
-#         db_table = 'lab_barcode_zpltemplate'

@@ -1,4 +1,5 @@
 from django.db import models
+
 from lis.base.model.models import BaseLabListModel
 
 
