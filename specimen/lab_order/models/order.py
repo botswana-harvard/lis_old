@@ -1,7 +1,10 @@
 from django.db import models
+
 from lis.specimen.lab_aliquot.models import Aliquot
 from lis.specimen.lab_panel.models import Panel
+
 from ..managers import OrderManager
+
 from .base_order import BaseOrder
 
 

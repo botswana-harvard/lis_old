@@ -1,5 +1,7 @@
 import pyodbc
+
 from datetime import datetime
+
 from django.conf import settings
 
 
@@ -23,34 +25,34 @@ class ExportDmis(object):
         into the dmis receiving table based on data in the edc requisition."""
 
         return ("insert into lab01response ("
-            "pid, pat_id, tid, headerdate,"
-            "edc_specimen_identifier, sample_protocolnumber,"
-            "sample_date_drawn, sample_time_drawn, sample_condition,"
-            "sample_comment, sample_site_id, sample_visitid,"
-            "pinitials, gender, dob, keyopcreated,"
-            "keyoplastmodified, datecreated, datelastmodified) "
-            "values("
-            "'{pid}','{pat_id}','{tid}','{headerdate}','{edc_specimen_identifier}',"
-            "'{sample_protocolnumber}','{sample_date_drawn}','{sample_time_drawn}',"
-            "'{sample_condition}','{sample_comment}','{sample_site_id}','{sample_visitid}',"
-            "'{pinitials}','{gender}','{dob}','{keyopcreated}',"
-            "'{keyoplastmodified}','{datecreated}',"
-            "'{datelastmodified}'").format(
-                pid=dmis_identifier,
-                pat_id=requisition.get_subject_identifier(),
-                tid='000', headerdate=datetime.today().strftime('%Y-%m-%d %H:%M'),
-                edc_specimen_identifier=requisition.specimen_identifier,
-                sample_protocolnumber=settings.PROJECT_NUMBER,
-                sample_date_drawn=requisition.requisition_datetime.strftime('%Y-%m-%d'),
-                sample_time_drawn=requisition.requisition_datetime.strftime('%H:%M'),
-                sample_condition='10',
-                sample_comment='auto-import from edc',
-                sample_site_id=requisition.site.site_code,
-                sample_visitid=requisition.subject_visit.appointment.visit_definition.code,
-                pinitials=requisition.subject_visit.appointment.registered_subject.initials,
-                gender=requisition.subject_visit.appointment.registered_subject.gender,
-                dob=requisition.subject_visit.appointment.registered_subject.dob.strftime('%Y-%m-%d'),
-                keyopcreated=user,
-                keyoplastmodified=user,
-                datecreated=datetime.today().strftime('%Y-%m-%d %H:%M'),
-                datelastmodified=datetime.today().strftime('%Y-%m-%d %H:%M'))
+                "pid, pat_id, tid, headerdate,"
+                "edc_specimen_identifier, sample_protocolnumber,"
+                "sample_date_drawn, sample_time_drawn, sample_condition,"
+                "sample_comment, sample_site_id, sample_visitid,"
+                "pinitials, gender, dob, keyopcreated,"
+                "keyoplastmodified, datecreated, datelastmodified) "
+                "values("
+                "'{pid}','{pat_id}','{tid}','{headerdate}','{edc_specimen_identifier}',"
+                "'{sample_protocolnumber}','{sample_date_drawn}','{sample_time_drawn}',"
+                "'{sample_condition}','{sample_comment}','{sample_site_id}','{sample_visitid}',"
+                "'{pinitials}','{gender}','{dob}','{keyopcreated}',"
+                "'{keyoplastmodified}','{datecreated}',"
+                "'{datelastmodified}'").format(
+                    pid=dmis_identifier,
+                    pat_id=requisition.get_subject_identifier(),
+                    tid='000', headerdate=datetime.today().strftime('%Y-%m-%d %H:%M'),
+                    edc_specimen_identifier=requisition.specimen_identifier,
+                    sample_protocolnumber=settings.PROJECT_NUMBER,
+                    sample_date_drawn=requisition.requisition_datetime.strftime('%Y-%m-%d'),
+                    sample_time_drawn=requisition.requisition_datetime.strftime('%H:%M'),
+                    sample_condition='10',
+                    sample_comment='auto-import from edc',
+                    sample_site_id=requisition.site.site_code,
+                    sample_visitid=requisition.subject_visit.appointment.visit_definition.code,
+                    pinitials=requisition.subject_visit.appointment.registered_subject.initials,
+                    gender=requisition.subject_visit.appointment.registered_subject.gender,
+                    dob=requisition.subject_visit.appointment.registered_subject.dob.strftime('%Y-%m-%d'),
+                    keyopcreated=user,
+                    keyoplastmodified=user,
+                    datecreated=datetime.today().strftime('%Y-%m-%d %H:%M'),
+                    datelastmodified=datetime.today().strftime('%Y-%m-%d %H:%M'))

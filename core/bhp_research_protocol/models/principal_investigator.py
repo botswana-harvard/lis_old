@@ -1,5 +1,6 @@
 from django.utils.translation import ugettext as _
 from edc.base.model.fields import NameField, InitialsField
+
 from lis.base.model.models import BaseLabUuidModel
 
 
@@ -7,7 +8,7 @@ class PrincipalInvestigator (BaseLabUuidModel):
 
     first_name = NameField(
         verbose_name=_("First name")
-        )
+    )
 
     last_name = NameField(
         verbose_name=_("Last name")

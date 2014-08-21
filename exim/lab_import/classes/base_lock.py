@@ -1,4 +1,5 @@
 import logging
+
 from django.db import DatabaseError, IntegrityError
 
 logger = logging.getLogger(__name__)

@@ -2,6 +2,7 @@ from django.db import models
 
 from edc.base.model.models import BaseModel
 
+
 class OrderIdentifierTracker(BaseModel):
 
     """track unique order numbers for new order records."""
@@ -9,8 +10,7 @@ class OrderIdentifierTracker(BaseModel):
     order_identifier = models.CharField(
         verbose_name='Order number',
         max_length=25,
-        db_index=True,
-        )
+        db_index=True)
 
     yyyymm = models.IntegerField(db_index=True,)
 

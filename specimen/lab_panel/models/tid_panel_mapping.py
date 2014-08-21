@@ -1,4 +1,5 @@
 from django.db import models
+
 from lis.base.model.models import BaseLabModel
 from lis.specimen.lab_panel.models import Panel
 
@@ -7,8 +8,7 @@ class TidPanelMapping(BaseLabModel):
 
     tid = models.CharField(
         verbose_name='dmis TID',
-        max_length=3,
-        )
+        max_length=3)
 
     panel = models.ForeignKey(Panel)
 

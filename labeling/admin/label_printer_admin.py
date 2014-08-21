@@ -1,8 +1,9 @@
 from django.contrib import admin
 
 from .client_admin import ClientInline
-from ..models import LabelPrinter
+
 from ..forms import LabelPrinterForm
+from ..models import LabelPrinter
 
 
 class LabelPrinterAdmin(admin.ModelAdmin):

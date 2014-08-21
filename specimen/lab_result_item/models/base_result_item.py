@@ -1,6 +1,9 @@
 import re
+
 from django.db import models
+
 from lis.base.model.models import BaseLabUuidModel
+
 from ..classes import ResultItemFlag
 from ..choices import RESULT_VALIDATION_STATUS, RESULT_QUANTIFIER
 
