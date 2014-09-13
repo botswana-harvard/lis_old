@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 
 from edc.subject.registration.models import RegisteredSubject
 
@@ -28,6 +28,27 @@ class AliquotLabel(ModelLabel):
         else:
             self.zpl_template = ZplTemplate.objects.get(name=template_name)
 
+    def test(self, client_addr=None):
+        client_addr = client_addr or '127.0.0.1'
+        custom = {}
+        custom.update({
+            'aliquot_identifier': '1234567890123456',
+            'aliquot_count': 2,
+            'primary': 'P',
+            'barcode_value': 0,
+            'protocol': 'BHP999',
+            'site': 'SS',
+            'clinician_initials': 'CC',
+            'drawn_datetime': datetime.today(),
+            'subject_identifier': '999-990000-01',
+            'gender': 'M',
+            'dob': date.today(),
+            'initials': 'II',
+            'aliquot_type': 'WB'})
+        self.label_context.update(**custom)
+        msg, err_msg, print_success = super(AliquotLabel, self).test(client_addr=client_addr)
+        print (msg, err_msg, print_success)
+
     def refresh_label_context(self):
         aliquot = self.model_instance
         subject_identifier = aliquot.get_subject_identifier()
@@ -44,12 +65,6 @@ class AliquotLabel(ModelLabel):
             'protocol': aliquot.aliquot_identifier[0:3],
             'site': aliquot.aliquot_identifier[3:5],
             'clinician_initials': aliquot.receive.clinician_initials,
-            })
-#         if 'hiv_status_code' in dir(aliquot):
-#             custom.update({'hiv_status_code': str(aliquot.hiv_status_code()), })
-#         if 'art_status_code' in dir(aliquot):
-#             custom.update({'art_status_code': str(aliquot.art_status_code()), })
-        custom.update({
             'drawn_datetime': aliquot.receive.drawn_datetime,
             'subject_identifier': subject_identifier,
             'gender': registered_subject.gender,
@@ -62,6 +77,5 @@ class AliquotLabel(ModelLabel):
         """ Prints a label flags this aliquot as 'labeled' to be called as an action."""
         if aliquot.aliquot_identifier:
             self.print_label(request, aliquot, 1)
-            #aliquot.is_labeled = True
             aliquot.modified = datetime.today()
             aliquot.save()
