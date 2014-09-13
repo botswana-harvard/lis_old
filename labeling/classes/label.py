@@ -1,4 +1,3 @@
-import os
 import subprocess
 import tempfile
 import threading
@@ -6,8 +5,10 @@ import threading
 from datetime import datetime
 from string import Template
 
-from ..models import ZplTemplate, LabelPrinter
+from django.conf import settings
 from django.core.exceptions import MultipleObjectsReturned
+
+from ..models import ZplTemplate, LabelPrinter
 
 
 class Label(object):
@@ -34,6 +35,11 @@ class Label(object):
         self.error_message = None
         self.process = None
         self.msgs = None
+        self.timeout = None
+        try:
+            self.timeout = settings.LABEL_PRINTER_TIMEOUT
+        except AttributeError:
+            self.timeout = 5
 
     @property
     def barcode_value(self):
@@ -84,10 +90,9 @@ class Label(object):
                     f.write(self.formatted_label_string)
                 # wrap the lpr process in a thread to allow for a timeout if printer not found.
                 # http://stackoverflow.com/questions/1191374/subprocess-with-timeout
-                timeout = 10
                 thread = threading.Thread(target=self.printing_processor)
                 thread.start()
-                thread.join(timeout)
+                thread.join(self.timeout)
                 if thread.is_alive():
                     self.process.terminate()
                     thread.join()
