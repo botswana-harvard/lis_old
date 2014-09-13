@@ -11,6 +11,9 @@ class ModelLabel(Label):
         super(ModelLabel, self).__init__()
         self._model_instance = None
 
+    def test(self, client_addr):
+        return super(ModelLabel, self).print_label(1, client_addr=client_addr, test=True)
+
     def print_label(self, request, model_instance, copies=None, update_messages=True, client_addr=None):
         if request:
             client_addr = request.META.get('REMOTE_ADDR')
