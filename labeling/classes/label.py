@@ -1,10 +1,12 @@
-import os
 import subprocess
 import tempfile
 import threading
 
 from datetime import datetime
 from string import Template
+
+from django.conf import settings
+from django.core.exceptions import MultipleObjectsReturned
 
 from ..models import ZplTemplate, LabelPrinter
 
@@ -33,6 +35,11 @@ class Label(object):
         self.error_message = None
         self.process = None
         self.msgs = None
+        self.timeout = None
+        try:
+            self.timeout = settings.LABEL_PRINTER_TIMEOUT
+        except AttributeError:
+            self.timeout = 5
 
     @property
     def barcode_value(self):
@@ -83,21 +90,26 @@ class Label(object):
                     f.write(self.formatted_label_string)
                 # wrap the lpr process in a thread to allow for a timeout if printer not found.
                 # http://stackoverflow.com/questions/1191374/subprocess-with-timeout
-                timeout = 10
                 thread = threading.Thread(target=self.printing_processor)
                 thread.start()
-                thread.join(timeout)
+                thread.join(self.timeout)
                 if thread.is_alive():
                     self.process.terminate()
                     thread.join()
                 if self.process.returncode < 0:
                     # process timed out so throw an exception
                     self.error_message = ('Unable to connect to printer '
-                                          '{0} ({1}){2}.'.format(unicode(self.label_printer),
-                                                                 self.process.returncode, self.client_addr))
+                                          '{0} ({1}){2} using name {3}.'.format(
+                                              self.label_printer,
+                                              self.process.returncode,
+                                              self.client_addr,
+                                              self.label_printer.cups_printer_name.replace(' @ ', '__')))
                 elif self.error_message:
-                    self.error_message = '{0} See printer {1}.'.format(self.error_message,
-                                                                       self.label_printer.cups_printer_name)
+                    self.error_message = ('{0} Tried with cups name {1}. See '
+                                          'label printer {2}.').format(
+                                              self.error_message,
+                                              self.label_printer.cups_printer_name.replace(' @ ', '__'),
+                                              self.label_printer.cups_printer_name)
                 else:
                     self.message = ('Successfully printed label \'{0}\' {1}/{2} to '
                                     '{3} from {4}'.format(self.barcode_value, (copies - i + 1), copies,
@@ -108,7 +120,7 @@ class Label(object):
     def printing_processor(self):
         """ Callback to run lpr in a thread. """
         self.process = subprocess.Popen(
-            ['lpr', '-P', self.label_printer.cups_printer_name, '-l',
+            ['lpr', '-P', self.label_printer.cups_printer_name.replace('@', '_').replace(' ', '_'), '-l',
              self.file_name, '-H', self.label_printer.cups_server_ip],
             shell=False,
             stdout=subprocess.PIPE,
@@ -127,7 +139,12 @@ class Label(object):
                 try:
                     # get the default printer
                     self._label_printer = LabelPrinter.objects.get(default=True)
-                    self.default_label_printer = self._label_printer 
+                    self.default_label_printer = self._label_printer
+                except MultipleObjectsReturned:
+                    self._label_printer = None
+                    self.error_message = ('Unable to select a printer for client \'{}\'. Client not '
+                                          'listed and more than one label printer is set as default.'
+                                          ).format(self.client_addr)
                 except LabelPrinter.DoesNotExist:
                     self._label_printer = None
                     self.error_message = 'Unable to select a printer for client \'{}\'.'.format(self.client_addr)
