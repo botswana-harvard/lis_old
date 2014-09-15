@@ -28,8 +28,7 @@ class AliquotLabel(ModelLabel):
         else:
             self.zpl_template = ZplTemplate.objects.get(name=template_name)
 
-    def test(self, client_addr=None):
-        client_addr = client_addr or '127.0.0.1'
+    def test(self, client_addr):
         custom = {}
         custom.update({
             'aliquot_identifier': '1234567890123456',
@@ -39,7 +38,7 @@ class AliquotLabel(ModelLabel):
             'protocol': 'BHP999',
             'site': 'SS',
             'clinician_initials': 'CC',
-            'drawn_datetime': datetime.today(),
+            'drawn_datetime': datetime.today().strftime('%Y-%m-%d %H:%M'),
             'subject_identifier': '999-990000-01',
             'gender': 'M',
             'dob': date.today(),

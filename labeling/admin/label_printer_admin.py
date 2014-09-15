@@ -12,6 +12,7 @@ class LabelPrinterAdmin(admin.ModelAdmin):
 
     fields = (
         "cups_printer_name",
+        "cups_server_hostname",
         "cups_server_ip",
         "default",
     )
@@ -19,6 +20,6 @@ class LabelPrinterAdmin(admin.ModelAdmin):
     radio_fields = {}
     filter_horizontal = ()
     inlines = [ClientInline, ]
-    list_display = ('cups_printer_name', 'cups_server_ip', 'default')
+    list_display = ('cups_printer_name', 'cups_server_hostname', 'cups_server_ip', 'default')
 
 admin.site.register(LabelPrinter, LabelPrinterAdmin)
