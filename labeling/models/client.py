@@ -7,20 +7,28 @@ from .label_printer import LabelPrinter
 
 class Client(BaseUuidModel):
     """A model that links client or user's machine to a printer by IP address."""
-    ip = models.IPAddressField()
+    ip = models.IPAddressField(
+        verbose_name='IP Address',
+        null=True,
+        blank=True,
+        help_text='may be determined from hostname'
+        )
 
     name = models.CharField(
+        verbose_name='Hostname',
         max_length=50,
         null=True,
         blank=True,
-    )
+        help_text=''
+        )
 
-    label_printer = models.ForeignKey(LabelPrinter)
+    label_printer = models.ForeignKey(LabelPrinter,
+        help_text='printer to be selected for this client',
+        )
 
     def __unicode__(self):
-        return "%s - %s" % (self.ip, self.name,)
+        return "{} ({})".format(self.name, unicode(self.label_printer))
 
     class Meta:
         app_label = 'labeling'
-#         db_table = 'lab_barcode_client'
         ordering = ['ip', 'label_printer', ]

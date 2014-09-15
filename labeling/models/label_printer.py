@@ -5,18 +5,26 @@ from edc.base.model.models import BaseUuidModel
 
 class LabelPrinter(BaseUuidModel):
     """A model of the printer name and IP address."""
-    cups_printer_name = models.CharField(max_length=50, unique=True)
+    cups_printer_name = models.CharField(max_length=50)
 
-    cups_server_ip = models.IPAddressField()
+    cups_server_hostname = models.CharField(
+        max_length=25,
+        help_text='must be a valid hostname in hosts file or DNS.'
+        )
+
+    cups_server_ip = models.IPAddressField(
+        null=True,
+        help_text='provide if known.'
+        )
 
     default = models.BooleanField(default=False)
 
     objects = models.Manager()
 
     def __unicode__(self):
-        return '%s@%s' % (self.cups_printer_name, self.cups_server_ip,)
+        return '{}@{}'.format(self.cups_printer_name, self.cups_server_hostname,)
 
     class Meta:
         app_label = 'labeling'
-#         db_table = 'lab_barcode_labelprinter'
-        ordering = ['cups_server_ip', ]
+        ordering = ['cups_printer_name', 'cups_server_hostname']
+        unique_together = ['cups_printer_name', 'cups_server_hostname']
