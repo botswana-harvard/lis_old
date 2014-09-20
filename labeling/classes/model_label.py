@@ -1,5 +1,7 @@
 from django.contrib import messages
 
+from ..exceptions import LabelPrinterError
+
 from .label import Label
 
 
@@ -9,8 +11,8 @@ class ModelLabel(Label):
         super(ModelLabel, self).__init__()
         self._model_instance = None
 
-    def test(self, client_addr):
-        return super(ModelLabel, self).print_label(1, client_addr=client_addr, debug=True)
+    def test(self, client_addr, label_printer=None):
+        return super(ModelLabel, self).print_label(1, client_addr=client_addr, debug=True, label_printer=label_printer)
 
     def print_label(self, request, model_instance, copies=None, update_messages=True, client_addr=None):
         """Returns a tuple of success message, error message and boolean, by
@@ -21,14 +23,18 @@ class ModelLabel(Label):
             client_addr = client_addr or request.META.get('REMOTE_ADDR')
         self.model_instance = model_instance
         copies = copies or 1
-        msg, err_msg, print_success = super(ModelLabel, self).print_label(copies,
-                                                                          client_addr=client_addr)
+        try:
+            msg = super(ModelLabel, self).print_label(copies, client_addr=client_addr)
+            print_success = True
+        except LabelPrinterError as label_printer_error:
+            msg = str(label_printer_error)
+            print_success = False
         if update_messages:
-            if err_msg:
-                messages.add_message(request, messages.ERROR, err_msg)
-            if msg:
+            if print_success:
                 messages.add_message(request, messages.SUCCESS, msg)
-        return msg, err_msg, print_success
+            else:
+                messages.add_message(request, messages.ERROR, msg)
+        return msg, print_success
 
     @property
     def model_instance(self):
