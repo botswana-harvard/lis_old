@@ -3,7 +3,7 @@ from django.contrib import messages
 
 from ..actions import print_test_label
 from ..classes import ModelLabel
-from ..exceptions import PrinterException
+from ..exceptions import LabelPrinterError
 from ..models import TestLabel
 
 
@@ -17,7 +17,7 @@ class TestLabelAdmin(admin.ModelAdmin):
         model_label = ModelLabel()
         try:
             model_label.print_label(request, obj, obj.copies, obj.identifier)
-        except PrinterException as e:
+        except LabelPrinterError as e:
             messages.add_message(request, messages.ERROR, e.value)
         super(TestLabelAdmin, self).save_model(request, obj, form, change)
 

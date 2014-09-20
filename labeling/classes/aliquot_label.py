@@ -28,7 +28,10 @@ class AliquotLabel(ModelLabel):
         else:
             self.zpl_template = ZplTemplate.objects.get(name=template_name)
 
-    def test(self, client_addr):
+    def test(self, client_addr, label_printer=None):
+        """Passes a test label the printer.
+
+        Accepts arg client_addr (hostname or ip)."""
         custom = {}
         custom.update({
             'aliquot_identifier': '1234567890123456',
@@ -45,8 +48,7 @@ class AliquotLabel(ModelLabel):
             'initials': 'II',
             'aliquot_type': 'WB'})
         self.label_context.update(**custom)
-        msg, err_msg, print_success = super(AliquotLabel, self).test(client_addr=client_addr)
-        print (msg, err_msg, print_success)
+        return super(AliquotLabel, self).test(client_addr=client_addr, label_printer=label_printer)
 
     def refresh_label_context(self):
         aliquot = self.model_instance
