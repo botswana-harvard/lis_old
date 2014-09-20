@@ -193,20 +193,21 @@ class Label(object):
                 print 'LabelPrinter not set by Client. Searching CUPS and EDC LabelPrinter'
             # try for a label printer in CUPS set to default in CUPS
             dest = self.cups_connection.getDests().get((None, None))
-            if dest.options['printer-make-and-model'] in settings.LABEL_PRINTER_MAKE_AND_MODEL:
-                try:
-                    if self.debug:
-                        print 'Default in CUPS is {}@{}'.format(dest.name, self.cups_server.hostname)
-                    self._label_printer = LabelPrinter.objects.get(
-                        cups_printer_name=dest.name,
-                        cups_server_hostname=self.cups_server.hostname,
-                        )
-                    if self.debug:
-                        print 'Selected EDC LabelPrinter {}@{} that is the default in CUPS.'.format(dest.name, self.cups_server.hostname)
-                except LabelPrinter.DoesNotExist:
-                    if self.debug:
-                        print '... not selecting {}@{}. Not an EDC LabelPrinter'.format(dest.name, self.cups_server.hostname)
-                    pass
+            if dest:
+                if dest.options['printer-make-and-model'] in settings.LABEL_PRINTER_MAKE_AND_MODEL:
+                    try:
+                        if self.debug:
+                            print 'Default in CUPS is {}@{}'.format(dest.name, self.cups_server.hostname)
+                        self._label_printer = LabelPrinter.objects.get(
+                            cups_printer_name=dest.name,
+                            cups_server_hostname=self.cups_server.hostname,
+                            )
+                        if self.debug:
+                            print 'Selected EDC LabelPrinter {}@{} that is the default in CUPS.'.format(dest.name, self.cups_server.hostname)
+                    except LabelPrinter.DoesNotExist:
+                        if self.debug:
+                            print '... not selecting {}@{}. Not an EDC LabelPrinter'.format(dest.name, self.cups_server.hostname)
+                        pass
             if not self._label_printer:
                 # try for a label printers in CUPS set to default in the EDC?
                 if self.debug:
