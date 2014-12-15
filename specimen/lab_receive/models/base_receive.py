@@ -13,7 +13,7 @@ class BaseReceive (BaseLabUuidModel):
     receive_identifier = models.CharField(
         verbose_name='Receiving Identifier',
         max_length=25,
-        null=True,
+        null=True,  # should not be True
         editable=False,
         db_index=True,
         unique=True)
