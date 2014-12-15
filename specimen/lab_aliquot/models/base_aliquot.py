@@ -10,6 +10,20 @@ from ..choices import ALIQUOT_STATUS, SPECIMEN_MEASURE_UNITS, SPECIMEN_MEDIUM
 
 class BaseAliquot (BaseLabListUuidModel):
 
+    # if filter on this field will return all aliquots from the primary of this PK
+#     primary_aliquot = models.CharField(
+#         max_length=50,
+#         null=True,
+#         editable=False,
+#         help_text="if equal to pk, is primary, otherwise None")
+# 
+#     # if filter on this field will return all aliquots from the source or parent aliquot, not necessarily primary
+#     source_aliquot = models.CharField(
+#         max_length=50,
+#         null=True,
+#         editable=False,
+#         help_text='Aliquot pk from which this aliquot was created, Leave blank if this is the primary tube')
+
     primary_aliquot = models.ForeignKey('self',
         null=True,
         related_name='primary',
@@ -107,7 +121,8 @@ class BaseAliquot (BaseLabListUuidModel):
 
     def to_receive(self):
         url = reverse('admin:{app_label}_receive_changelist'.format(app_label=self._meta.app_label,))
-        return '<a href="{url}?q={receive_identifier}">{receive_identifier}</a>'.format(url=url, app_label=self._meta.app_label, receive_identifier=self.receive.receive_identifier)
+        return '<a href="{url}?q={receive_identifier}">{receive_identifier}</a>'.format(
+            url=url, app_label=self._meta.app_label, receive_identifier=self.receive.receive_identifier)
     to_receive.allow_tags = True
 
     class Meta:
