@@ -8,10 +8,10 @@ from .label_printer import LabelPrinter
 class Client(BaseUuidModel):
     """A model that links client or user's machine to a printer by IP address."""
     ip = models.IPAddressField(
-        verbose_name='IP Address',
+        verbose_name='IP4 Address',
         null=True,
         blank=True,
-        help_text='may be determined from hostname'
+        help_text=''
         )
 
     name = models.CharField(
