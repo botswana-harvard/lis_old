@@ -1,7 +1,5 @@
 from django.db import models
 
-from edc.audit.audit_trail import AuditTrail
-
 from lis.core.lab_reference.models import BaseReferenceListItem
 from lis.core.lab_reference.utils import get_lower_range_days, get_upper_range_days
 
@@ -16,8 +14,6 @@ class TestCodeReferenceListItem(BaseReferenceListItem):
     test_code_reference_list = models.ForeignKey(TestCodeReferenceList)
 
     objects = models.Manager()
-
-    history = AuditTrail()
 
     def age_low_days(self):
         return get_lower_range_days(self.age_low, self.age_low_unit)

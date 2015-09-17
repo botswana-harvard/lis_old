@@ -1,6 +1,6 @@
 from django.db import models
 
-from edc.base.model.models import BaseModel
+from edc_base.model.models import BaseModel
 
 from lis.choices import UNITS
 
@@ -22,13 +22,13 @@ class BaseReferenceListItem(BaseModel):
         verbose_name="Gender",
         choices=GENDER_OF_REFERENCE,
         max_length=10,
-        )
+    )
 
     hiv_status = models.CharField(
         max_length=10,
         choices=POS_NEG_ANY,
         default='ANY',
-        )
+    )
 
     value_unit = models.CharField(max_length=10, choices=UNITS, null=True)
 
@@ -74,7 +74,7 @@ class BaseReferenceListItem(BaseModel):
         verbose_name="Comment",
         max_length=250,
         blank=True,
-        )
+    )
 
     import_datetime = models.DateTimeField(null=True, blank=True)
 

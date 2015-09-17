@@ -49,7 +49,7 @@ class BaseResult(BaseLabUuidModel):
         return '%s' % (self.result_identifier)
 
     def panel(self):
-        return unicode(self.order.panel)
+        return str(self.order.panel)
 
     class Meta:
         abstract = True

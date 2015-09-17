@@ -2,8 +2,8 @@ from datetime import datetime
 
 from django.db import models
 
-from edc.base.model.validators import datetime_not_future
-from edc.base.model.fields import InitialsField
+from edc_base.model.validators import datetime_not_future
+from edc_base.model.fields import InitialsField
 
 
 class BaseReceive (models.Model):

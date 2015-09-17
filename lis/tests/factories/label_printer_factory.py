@@ -1,6 +1,6 @@
 from lis.base.model.tests.factories import BaseLabUuidModelFactory
 
-from ...models import LabelPrinter
+from lis.labeling.models import LabelPrinter
 
 
 class LabelPrinterFactory(BaseLabUuidModelFactory):

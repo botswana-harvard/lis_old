@@ -1,21 +1,14 @@
-import os.path
-
 from django.test import TestCase
-from django.test.client import RequestFactory
 from django.db import models
-# from edc.testing.tests.factories import TestModelFactory
 
-from ..classes import ModelLabel
-from ..models import LabelPrinter
+from edc_base.model.models import BaseUuidModel
+
+from lis.labeling.classes import ModelLabel
+from lis.labeling.models import LabelPrinter
 
 from .factories import LabelPrinterFactory, ClientFactory, ZplTemplateFactory
 
 import factory
-
-from edc.base.model.models import BaseUuidModel
-from edc.base.model.tests.factories import BaseUuidModelFactory
-
-from edc.testing.models import TestModel
 
 
 class TestModel(BaseUuidModel):
@@ -33,7 +26,7 @@ class TestModel(BaseUuidModel):
         app_label = 'labeling'
 
 
-class TestModelFactory(BaseUuidModelFactory):
+class TestModelFactory(BaseUuidModel):
     FACTORY_FOR = TestModel
 
     f1 = factory.Sequence(lambda n: 'F1{0}'.format(n))
@@ -66,9 +59,9 @@ class ModelLabelTests(TestCase):
 ^XZ""")
 
         self.zpl_template = ZplTemplateFactory(
-                name='Default template',
-                default=True,
-                template=self.default_zpl_template_string)
+            name='Default template',
+            default=True,
+            template=self.default_zpl_template_string)
 
     def test_zpl_template_not_set(self):
         """Assert fails if template not set."""
@@ -80,7 +73,7 @@ class ModelLabelTests(TestCase):
     def test_zpl_template(self):
         """Assert fails if template not set."""
         label = ModelLabel()
-        test_model = TestModelFactory()
+        TestModelFactory()
         label.zpl_template = self.zpl_template
 
     def test_print_label(self):
@@ -103,10 +96,8 @@ class ModelLabelTests(TestCase):
     def test_label_printer1(self):
         """Assert fails if template not set."""
         label = ModelLabel()
-        test_model = TestModelFactory()
+        TestModelFactory()
         label.zpl_template = self.zpl_template
-        
-#         self.assertRaises(TypeError, label.print_label, request, test_model, update_messages=False, client_addr='127.0.0.1')
 
     def test_label_context(self):
         """Assert can refresh the label context with the model instance."""

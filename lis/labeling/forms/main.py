@@ -1,11 +1,9 @@
 from django import forms
 
-from edc.base.form.forms import BaseModelForm
-
 from ..models import ZplTemplate, LabelPrinter
 
 
-class LabelForm(BaseModelForm):
+class LabelForm(forms.ModelForm):
 
     identifier = forms.CharField(
         max_length=25,
@@ -14,7 +12,7 @@ class LabelForm(BaseModelForm):
         error_messages={'required': 'Please enter a valid identifier.'})
 
 
-class ZplTemplateForm (BaseModelForm):
+class ZplTemplateForm (forms.ModelForm):
 
     def clean(self):
         cleaned_data = self.cleaned_data
@@ -24,7 +22,7 @@ class ZplTemplateForm (BaseModelForm):
         model = ZplTemplate
 
 
-class LabelPrinterForm (BaseModelForm):
+class LabelPrinterForm (forms.ModelForm):
     def clean(self):
         cleaned_data = self.cleaned_data
         return cleaned_data

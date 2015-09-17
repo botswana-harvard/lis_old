@@ -1,4 +1,5 @@
 from django.db import models
+
 from .site import Site
 from .protocol import Protocol
 
@@ -12,7 +13,7 @@ class ResearchClinic(models.Model):
     name = models.CharField(
         max_length=35,
         unique=True,
-        )
+    )
 
     def __unicode__(self):
         return '%s %s %s' % (self.site.site_identifier, self.name, self.site.location)
