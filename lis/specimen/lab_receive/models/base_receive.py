@@ -5,10 +5,8 @@ from django.db import models
 from edc.base.model.validators import datetime_not_future
 from edc.base.model.fields import InitialsField
 
-from lis.base.model.models import BaseLabUuidModel
 
-
-class BaseReceive (BaseLabUuidModel):
+class BaseReceive (models.Model):
 
     receive_identifier = models.CharField(
         verbose_name='Receiving Identifier',

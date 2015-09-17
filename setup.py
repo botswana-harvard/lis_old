@@ -11,23 +11,17 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='lis',
-    version='1.8',
-    author=u'Erik van Widenfelt, ...',
+    version='1.7.1',
+    author=u'Erik van Widenfelt',
     author_email='ew2789@gmail.com',
     packages=find_packages(),
     include_package_data=True,
     url='http://github/botswana-harvard/lis',
     license='GPL license, see LICENSE',
-    description='lis',
+    description='getresults',
     long_description=README,
     zip_safe=False,
-    keywords='django lis clinical trial research',
-    install_requires=[
-        'Django>=1.6.11',
-        'django-extensions>=1.5.5',
-        'unipath>=1.1',
-        'python-dateutil>=2.4.2',
-    ],
+    keywords='bhp066_project EDC (BCPP)',
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
@@ -35,8 +29,10 @@ setup(
         'License :: OSI Approved :: GNU General Public License (GPL)',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.2',
+        'Programming Language :: Python :: 3.4',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
 )
-
