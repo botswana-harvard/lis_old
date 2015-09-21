@@ -14,7 +14,8 @@ class ResultItem(BaseResultItem):
 
     result = models.ForeignKey(Result)
 
-    result_item_source = models.ForeignKey(ResultSource,
+    result_item_source = models.ForeignKey(
+        ResultSource,
         verbose_name='Source',
         help_text='Reference to source of information, such as interface, manual, outside lab, ...',
         db_index=True)
@@ -33,7 +34,7 @@ class ResultItem(BaseResultItem):
         super(ResultItem, self).save(*args, **kwargs)
 
     def __unicode__(self):
-        return '%s %s' % (unicode(self.result), unicode(self.test_code))
+        return '{} {}' .format(self.result, self.test_code)
 
     def get_subject_type(self):
         from edc.subject.registration.models import RegisteredSubject

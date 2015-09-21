@@ -1,6 +1,6 @@
 from django.db import models
 
-from edc.base.model.models import BaseUuidModel
+from edc_base.model.models import BaseUuidModel
 
 from .label_printer import LabelPrinter
 
@@ -8,11 +8,11 @@ from .label_printer import LabelPrinter
 class Client(BaseUuidModel):
     """A model that links client or user's machine to a printer by IP address."""
     ip = models.IPAddressField(
-        verbose_name='IP4 Address',
+        verbose_name='IP Address',
         null=True,
         blank=True,
-        help_text=''
-        )
+        help_text='may be determined from hostname'
+    )
 
     name = models.CharField(
         verbose_name='Hostname',
@@ -20,14 +20,15 @@ class Client(BaseUuidModel):
         null=True,
         blank=True,
         help_text=''
-        )
+    )
 
-    label_printer = models.ForeignKey(LabelPrinter,
+    label_printer = models.ForeignKey(
+        LabelPrinter,
         help_text='printer to be selected for this client',
-        )
+    )
 
     def __unicode__(self):
-        return "{} ({})".format(self.name, unicode(self.label_printer))
+        return "{} ({})".format(self.name, str(self.label_printer))
 
     class Meta:
         app_label = 'labeling'

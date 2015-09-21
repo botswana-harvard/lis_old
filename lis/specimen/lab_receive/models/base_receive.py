@@ -2,13 +2,11 @@ from datetime import datetime
 
 from django.db import models
 
-from edc.base.model.validators import datetime_not_future
-from edc.base.model.fields import InitialsField
-
-from lis.base.model.models import BaseLabUuidModel
+from edc_base.model.validators import datetime_not_future
+from edc_base.model.fields import InitialsField
 
 
-class BaseReceive (BaseLabUuidModel):
+class BaseReceive (models.Model):
 
     receive_identifier = models.CharField(
         verbose_name='Receiving Identifier',

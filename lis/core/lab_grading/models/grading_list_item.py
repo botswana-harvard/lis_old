@@ -15,7 +15,7 @@ class GradingListItem(BaseReferenceListItem):
     objects = models.Manager()
 
     def __unicode__(self):
-        return "%s" % (unicode(self.test_code))
+        return str(self.test_code)
 
     class Meta:
         app_label = 'lab_grading'

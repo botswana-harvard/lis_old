@@ -2,7 +2,7 @@ import factory
 
 from lis.base.model.tests.factories import BaseLabUuidModelFactory
 
-from ...models import Client
+from lis.labeling.models import Client
 
 from .label_printer_factory import LabelPrinterFactory
 

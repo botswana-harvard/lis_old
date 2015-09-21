@@ -2,7 +2,7 @@ import os.path
 
 from django.test import TestCase
 
-from ..classes import Label
+from lis.labeling.classes import Label
 
 from .factories import LabelPrinterFactory, ClientFactory, ZplTemplateFactory
 
@@ -27,9 +27,9 @@ class LabelTests(TestCase):
 ^XZ""")
 
         self.zpl_template = ZplTemplateFactory(
-                name='Default template',
-                default=True,
-                template=self.default_zpl_template_string)
+            name='Default template',
+            default=True,
+            template=self.default_zpl_template_string)
 
     def test_barcode_value(self):
         label = Label()

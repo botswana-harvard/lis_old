@@ -1,19 +1,22 @@
+from django.db import models
 from django.utils.translation import ugettext as _
-from edc.base.model.fields import NameField, InitialsField
+
 from lis.base.model.models import BaseLabUuidModel
 
 
 class SiteLeader (BaseLabUuidModel):
 
-    first_name = NameField(
-        verbose_name=_("First name")
-        )
+    first_name = models.CharField(
+        verbose_name=_("First name"),
+        max_length=25)
 
-    last_name = NameField(
-        verbose_name=_("Last name")
-    )
+    last_name = models.CharField(
+        verbose_name=_("Last name"),
+        max_length=25)
 
-    initials = InitialsField()
+    initials = models.CharField(
+        verbose_name=_("Initials"),
+        max_length=3)
 
     def __unicode__(self):
         return '%s, %s' % (self.last_name, self.first_name)

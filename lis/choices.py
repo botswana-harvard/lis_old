@@ -22,7 +22,7 @@ GENDER = (
 ABS_CALC = (
     ('absolute', 'Absolute'),
     ('calculated', 'Calculated'),
-    )
+)
 
 UNITS = (
     ('%', '%'),

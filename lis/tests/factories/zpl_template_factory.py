@@ -1,6 +1,6 @@
 from lis.base.model.tests.factories import BaseLabUuidModelFactory
 
-from ...models import ZplTemplate
+from lis.labeling.models import ZplTemplate
 
 
 class ZplTemplateFactory(BaseLabUuidModelFactory):

@@ -1,11 +1,9 @@
 from django.db import models
 
-from lis.base.model.models import BaseLabUuidModel
-
 from ..choices import RESULT_RELEASE_STATUS
 
 
-class BaseResult(BaseLabUuidModel):
+class BaseResult(models.Model):
 
     result_identifier = models.CharField(
         max_length=25,
@@ -49,7 +47,7 @@ class BaseResult(BaseLabUuidModel):
         return '%s' % (self.result_identifier)
 
     def panel(self):
-        return unicode(self.order.panel)
+        return str(self.order.panel)
 
     class Meta:
         abstract = True

@@ -1,4 +1,5 @@
 import factory
+
 from lis.base.model.tests.factories import BaseLabListModelFactory
 from lis.choices import UNITS
 
