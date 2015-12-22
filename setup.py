@@ -21,7 +21,7 @@ setup(
     description='getresults',
     long_description=README,
     zip_safe=False,
-    keywords='bhp066_project EDC (BCPP)',
+    keywords='EDC lis modules',
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
