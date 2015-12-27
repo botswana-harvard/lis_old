@@ -10,7 +10,7 @@ from django.db.models import Q, get_model
 from django.db.models.fields import NOT_PROVIDED
 
 from edc.core.bhp_poll_mysql.poll_mysql import PollMySQL
-from edc.subject.registration.models import RegisteredSubject
+from edc_registration.models import RegisteredSubject
 
 from edc.lab.lab_clinic_api.models import AliquotType, AliquotCondition
 from edc.lab.lab_clinic_api.models import Receive, Aliquot, Order, Result, ResultItem

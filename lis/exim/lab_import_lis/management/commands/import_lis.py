@@ -1,7 +1,7 @@
 from optparse import make_option
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
-from edc.subject.registration.models import RegisteredSubject
+from edc_registration.models import RegisteredSubject
 from edc.subject.lab_tracker.classes import site_lab_tracker
 from edc.lab.lab_clinic_api.classes import EdcLabResults
 from ...classes import LisLock, ImportHistory, LisDataImporter

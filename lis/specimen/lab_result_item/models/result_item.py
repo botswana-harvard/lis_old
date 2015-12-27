@@ -37,7 +37,7 @@ class ResultItem(BaseResultItem):
         return '{} {}' .format(self.result, self.test_code)
 
     def get_subject_type(self):
-        from edc.subject.registration.models import RegisteredSubject
+        from edc_registration.models import RegisteredSubject
         registered_subject = RegisteredSubject.objects.get(subject_identifier=self.result.subject_identifier)
         return registered_subject.subject_type
 

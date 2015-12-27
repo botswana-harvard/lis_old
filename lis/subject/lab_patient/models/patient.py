@@ -1,11 +1,13 @@
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
-from edc.base.model.fields import InitialsField, IsDateEstimatedField
-from edc.base.model.validators import dob_not_future
-from lis.choices import GENDER, ART_STATUS_UNKNOWN, POS_NEG_UNKNOWN
+
+from edc_base.model.fields import InitialsField, IsDateEstimatedField
+from edc_base.model.validators import dob_not_future
 from lis.base.model.models import BaseLabUuidModel
+from lis.choices import GENDER, ART_STATUS_UNKNOWN, POS_NEG_UNKNOWN
 from lis.subject.lab_account.models import Account
+
 from ..managers import PatientManager
 
 
