@@ -1,10 +1,9 @@
-from django.core.validators import RegexValidator
 from django.db import models
 
-from lis.base.model.models import BaseLabModel
+from django.core.validators import RegexValidator
 
 
-class BaseAliquotType(BaseLabModel):
+class BaseAliquotType(models.Model):
 
     name = models.CharField(
         verbose_name='Description',

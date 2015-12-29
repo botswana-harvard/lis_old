@@ -1,16 +1,13 @@
 from lis.specimen.lab_aliquot.models import Aliquot
 
-from edc.core.bhp_variables.models import StudySpecific
-
 
 def AllocateAliquotIdentifier(user, aliquot_type):
 
-    obj = StudySpecific.objects.all()[0]
     aliquot = Aliquot.objects.order_by('-id_int')
     if aliquot.count() > 0:
         seed = aliquot[0].id_seed + 1
     else:
-        seed = obj.aliquot_seed
+        seed = 1
     id_int = 10000 + seed
     check_digit = id_int % 103
     while check_digit > 99:

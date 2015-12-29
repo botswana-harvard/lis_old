@@ -37,7 +37,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'edc.core.bhp_variables',
     'edc_base',
     'edc_audit',
     'edc.subject.registration',

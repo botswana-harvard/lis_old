@@ -12,8 +12,8 @@ from django.db.models.fields import NOT_PROVIDED
 from edc.core.bhp_poll_mysql.poll_mysql import PollMySQL
 from edc_registration.models import RegisteredSubject
 
-from edc.lab.lab_clinic_api.models import AliquotType, AliquotCondition
-from edc.lab.lab_clinic_api.models import Receive, Aliquot, Order, Result, ResultItem
+from edc_lab.lab_clinic_api.models import AliquotType, AliquotCondition
+from edc_lab.lab_clinic_api.models import Receive, Aliquot, Order, Result, ResultItem
 
 from lis.core.bhp_research_protocol.models import Protocol
 from lis.exim.lab_import_lis.models import LisImportError

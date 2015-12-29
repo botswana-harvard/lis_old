@@ -1,4 +1,4 @@
-from edc.lab.lab_clinic_api.models import TestCode, TestCodeGroup, Panel, AliquotType
+from edc_lab.lab_clinic_api.models import TestCode, TestCodeGroup, Panel, AliquotType
 
 
 class ConvertLisAttr(object):
