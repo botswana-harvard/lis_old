@@ -1,9 +1,9 @@
-from lis.base.model.models import BaseLabListModel
+from edc_base.model.models import BaseListModel
 
 from ..managers import AliquotConditionManager
 
 
-class BaseAliquotCondition(BaseLabListModel):
+class BaseAliquotCondition(BaseListModel):
 
     objects = AliquotConditionManager()
 

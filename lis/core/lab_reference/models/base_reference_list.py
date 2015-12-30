@@ -7,20 +7,17 @@ class BaseReferenceList(BaseModel):
 
     name = models.CharField(
         verbose_name="List name",
-        max_length=50,
-        )
+        max_length=50)
 
     description = models.CharField(
         verbose_name="Description",
         max_length=250,
         null=True,
-        blank=True,
-        )
+        blank=True)
 
     list_date = models.DateField(
         null=True,
-        blank=True,
-        )
+        blank=True)
 
     objects = models.Manager()
 

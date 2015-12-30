@@ -2,8 +2,10 @@ from django.db import models
 
 from django.core.validators import RegexValidator
 
+from edc_base.model.models import BaseModel
 
-class BaseAliquotType(models.Model):
+
+class BaseAliquotType(BaseModel):
 
     name = models.CharField(
         verbose_name='Description',

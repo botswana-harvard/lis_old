@@ -1,7 +1,9 @@
 from django.db import models
 
+from edc_base.model.models import BaseModel
 
-class BasePanel(models.Model):
+
+class BasePanel(BaseModel):
 
     name = models.CharField(
         verbose_name="Panel Name",
