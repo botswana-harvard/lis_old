@@ -1,12 +1,18 @@
 import logging
 import re
-from datetime import datetime
-from edc.core.bhp_common.utils import get_age_in_days
-from edc.subject.lab_tracker.classes import site_lab_tracker
+
+from datetime import datetime, time
 from lis.specimen.lab_test_code.models import BaseTestCode
 from lis.core.lab_reference.models import BaseReferenceListItem
+from django.core.exceptions import ImproperlyConfigured
 
 logger = logging.getLogger(__name__)
+
+
+def get_age_in_days(reference_date, dob):
+    dob = datetime.combine(dob, time())
+    tdelta = reference_date - dob
+    return tdelta.days
 
 
 class NullHandler(logging.Handler):
@@ -43,19 +49,19 @@ class Flag(object):
     def get_hiv_status(self):
         """ Returns the HIV status known at the time of sample draw."""
         if not self.hiv_status:
+            raise ImproperlyConfigured('get_hiv_status does not work.')
             # convert reference datetime to midnight
-            release_datetime = datetime(self.release_datetime.year, self.release_datetime.month, self.release_datetime.day, 23, 59, 59, 999)
-            self.hiv_status, self.is_default_hiv_status = site_lab_tracker.get_value(
-                self.group_name,
-                self.subject_identifier,
-                self.get_subject_type(),
-                release_datetime)
-        if not self.hiv_status:
-            raise TypeError('hiv_status cannot be None for subject {0} relative to {1} using group '
-                            'name {2} and subject_type {3}.'.format(self.subject_identifier,
-                                               release_datetime,
-                                               self.group_name,
-                                               self.get_subject_type()))
+#             release_datetime = datetime(self.release_datetime.year, self.release_datetime.month, self.release_datetime.day, 23, 59, 59, 999)
+#             self.hiv_status, self.is_default_hiv_status = site_lab_tracker.get_value(
+#                 self.group_name,
+#                 self.subject_identifier,
+#                 self.get_subject_type(),
+#                 release_datetime)
+#         if not self.hiv_status:
+#             raise TypeError('hiv_status cannot be None for subject {0} relative to {1} using group '
+#                             'name {2} and subject_type {3}.'.format(self.subject_identifier,
+#                                                self.group_name,
+#                                                self.get_subject_type()))
 
     def set_subject_type(self, value=None):
         self._subject_type = value
@@ -128,7 +134,7 @@ class Flag(object):
         # retdict.update({'is_default_hiv_status': self.is_default_hiv_status})
         # get the reference list from the user defined method
         list_items = self.get_list(value)
-        #if not list_items:
+        # if not list_items:
         #    # nothing in the reference list for this
         #    logger.warning('    No matching {0} items for {1}={2} ({3}).'.format(self.list_name, self.test_code.code, value, self.get_joined_criteria()))
         if list_items:
@@ -171,7 +177,7 @@ class Flag(object):
 
     def round_off(self, value, list_item):
         """Rounds off value and reference range to the number of places from "test code" for valid comparison."""
-        #flag, lower_limit, upper_limit = None, None, None
+        # flag, lower_limit, upper_limit = None, None, None
         places = self.test_code.display_decimal_places or 0  # this might be worth a warning in None
         lower_limit = round(list_item.value_low, places)
         upper_limit = round(list_item.value_high, places)

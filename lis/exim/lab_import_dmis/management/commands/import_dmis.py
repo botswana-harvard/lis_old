@@ -3,11 +3,7 @@ from optparse import make_option
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 
-from edc.subject.lab_tracker.classes import site_lab_tracker
-
 from lis.exim.lab_import_dmis.classes import DmisLock, Dmis, ImportHistory, DmisTools
-
-site_lab_tracker.autodiscover()
 
 
 class Command(BaseCommand):
