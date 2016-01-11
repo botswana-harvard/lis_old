@@ -1,18 +1,14 @@
 import logging
 import re
 
-from datetime import datetime, time
-from lis.specimen.lab_test_code.models import BaseTestCode
-from lis.core.lab_reference.models import BaseReferenceListItem
 from django.core.exceptions import ImproperlyConfigured
 
+from edc_base.utils import get_age_in_days
+
+from lis.specimen.lab_test_code.models import BaseTestCode
+from lis.core.lab_reference.models import BaseReferenceListItem
+
 logger = logging.getLogger(__name__)
-
-
-def get_age_in_days(reference_date, dob):
-    dob = datetime.combine(dob, time())
-    tdelta = reference_date - dob
-    return tdelta.days
 
 
 class NullHandler(logging.Handler):

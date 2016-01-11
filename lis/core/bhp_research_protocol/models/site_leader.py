@@ -1,10 +1,10 @@
 from django.db import models
 from django.utils.translation import ugettext as _
 
-from lis.base.model.models import BaseLabUuidModel
+from edc_base.model.models import BaseUuidModel
 
 
-class SiteLeader (BaseLabUuidModel):
+class SiteLeader (BaseUuidModel):
 
     first_name = models.CharField(
         verbose_name=_("First name"),

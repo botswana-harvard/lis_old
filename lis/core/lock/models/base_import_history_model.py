@@ -1,9 +1,9 @@
 from datetime import datetime
 from django.db import models
-from lis.base.model.models import BaseLabUuidModel
+from edc_base.model.models import BaseUuidModel
 
 
-class BaseImportHistoryModel(BaseLabUuidModel):
+class BaseImportHistoryModel(BaseUuidModel):
 
     start_datetime = models.DateTimeField(default=datetime.today())
     end_datetime = models.DateTimeField(null=True)

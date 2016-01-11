@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'edc_base',
     'edc_audit',
-    'edc.subject.registration',
+    'edc_registration',
     'lis',
     'lis.labeling'
 )

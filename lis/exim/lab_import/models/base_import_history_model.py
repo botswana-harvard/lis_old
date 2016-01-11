@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.db import models
 
-from edc_base.model.models.base_uuid_model import BaseUuidModel
+from edc_base.model.models import BaseUuidModel
 
 
 class BaseImportHistoryModel(BaseUuidModel):

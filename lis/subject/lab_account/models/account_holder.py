@@ -3,10 +3,10 @@ from django.utils.translation import ugettext as _
 
 from edc_base.encrypted_fields import EncryptedCharField
 
-from lis.base.model.models import BaseLabUuidModel
+from edc_base.model.models import BaseUuidModel
 
 
-class AccountHolder(BaseLabUuidModel):
+class AccountHolder(BaseUuidModel):
 
     first_name = EncryptedCharField(
         verbose_name=_("First name")

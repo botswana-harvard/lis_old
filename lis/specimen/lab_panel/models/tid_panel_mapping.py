@@ -1,10 +1,10 @@
 from django.db import models
 
-from lis.base.model.models import BaseLabModel
+from edc_base.model.models import BaseModel
 from lis.specimen.lab_panel.models import Panel
 
 
-class TidPanelMapping(BaseLabModel):
+class TidPanelMapping(BaseModel):
 
     tid = models.CharField(
         verbose_name='dmis TID',
