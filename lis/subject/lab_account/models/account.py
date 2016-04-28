@@ -1,9 +1,11 @@
 from django.db import models
-from lis.base.model.models import BaseLabUuidModel
+
+from edc_base.model.models import BaseUuidModel
+
 from .account_holder import AccountHolder
 
 
-class Account (BaseLabUuidModel):
+class Account (BaseUuidModel):
 
     account_name = models.CharField(
         max_length=25,

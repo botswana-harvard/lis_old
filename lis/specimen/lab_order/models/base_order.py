@@ -2,12 +2,10 @@ from django.db import models
 
 from edc_base.model.validators import datetime_not_future
 
-from lis.base.model.models import BaseLabUuidModel
-
 from ..choices import ORDER_STATUS
 
 
-class BaseOrder(BaseLabUuidModel):
+class BaseOrder(models.Model):
 
     order_identifier = models.CharField(
         verbose_name='Order number',

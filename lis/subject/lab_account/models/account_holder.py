@@ -1,22 +1,22 @@
 from django.db import models
 from django.utils.translation import ugettext as _
 
-from edc.base.model.fields import NameField, InitialsField
+from edc_base.encrypted_fields import EncryptedCharField
 
-from lis.base.model.models import BaseLabUuidModel
+from edc_base.model.models import BaseUuidModel
 
 
-class AccountHolder(BaseLabUuidModel):
+class AccountHolder(BaseUuidModel):
 
-    first_name = NameField(
+    first_name = EncryptedCharField(
         verbose_name=_("First name")
     )
 
-    last_name = NameField(
+    last_name = EncryptedCharField(
         verbose_name=_("Last name")
     )
 
-    initials = InitialsField()
+    initials = models.CharField(max_length=3)
 
     comment = models.TextField(
         max_length=100,

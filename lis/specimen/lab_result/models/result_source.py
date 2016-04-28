@@ -1,9 +1,9 @@
 from django.db import models
 
-from lis.base.model.models import BaseLabListModel
+from edc_base.model.models import BaseListModel
 
 
-class ResultSource(BaseLabListModel):
+class ResultSource(BaseListModel):
 
     objects = models.Manager()
 

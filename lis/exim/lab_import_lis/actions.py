@@ -1,4 +1,4 @@
-from edc.lab.lab_clinic_api.models import Receive
+from edc_lab.lab_clinic_api.models import Receive
 
 
 def clear_stale_error_messages(modeladmin, request, queryset):

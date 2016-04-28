@@ -1,5 +1,7 @@
 from django import template
-from edc.core.bhp_common.utils import formatted_age
+
+from edc_base.utils import formatted_age
+
 register = template.Library()
 
 

@@ -1,4 +1,5 @@
-from edc.core.bhp_common.utils import get_age_in_days
+from edc_base.utils import get_age_in_days
+
 from ..models import TestCodeReferenceListItem
 
 
@@ -14,10 +15,9 @@ def get_reference_range(**kwargs):
 
     # filter for the reference items for this list and this testcode, gender
     test_code_reference_list_item = TestCodeReferenceListItem.objects.filter(
-                                    test_code_reference_list__name__iexact=REFLIST,
-                                    test_code=kwargs.get('test_code'),
-                                    gender__icontains=kwargs.get('gender')
-                                    )
+        test_code_reference_list__name__iexact=REFLIST,
+        test_code=kwargs.get('test_code'),
+        gender__icontains=kwargs.get('gender'))
     # loop to find record for this age_in_days
     if test_code_reference_list_item:
         # raise TypeError(test_code_reference_list_item)

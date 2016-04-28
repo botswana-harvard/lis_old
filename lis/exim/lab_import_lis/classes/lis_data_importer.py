@@ -9,11 +9,10 @@ from django.db.models import ForeignKey
 from django.db.models import Q, get_model
 from django.db.models.fields import NOT_PROVIDED
 
-from edc.core.bhp_poll_mysql.poll_mysql import PollMySQL
-from edc.subject.registration.models import RegisteredSubject
+from edc_registration.models import RegisteredSubject
 
-from edc.lab.lab_clinic_api.models import AliquotType, AliquotCondition
-from edc.lab.lab_clinic_api.models import Receive, Aliquot, Order, Result, ResultItem
+from edc_lab.lab_clinic_api.models import AliquotType, AliquotCondition
+from edc_lab.lab_clinic_api.models import Receive, Aliquot, Order, Result, ResultItem
 
 from lis.core.bhp_research_protocol.models import Protocol
 from lis.exim.lab_import_lis.models import LisImportError
@@ -43,12 +42,9 @@ class LisDataImporter(object):
 
     def update_from_lis(self, subject_identifier):
         """ Update the Edc labs for a given subject_identifier from the Lis."""
-        poll_mysql = PollMySQL(db=self.db)
-        if poll_mysql.is_server_active():
-            import_history = ImportHistory(self.db, subject_identifier)
-            import_history.force_release(subject_identifier)
-            return self.import_from_lis(subject_identifier=subject_identifier)
-        return None
+        import_history = ImportHistory(self.db, subject_identifier)
+        import_history.force_release(subject_identifier)
+        return self.import_from_lis(subject_identifier=subject_identifier)
 
     def import_from_lis(self, **kwargs):
         """Imports data from the django-lis for each model in the relational model including list
