@@ -1,1 +1,1 @@
-from named_tuples import PanelTuple
+from .named_tuples import PanelTuple

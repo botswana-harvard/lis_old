@@ -3,7 +3,10 @@ import logging
 import pyodbc
 
 from django.conf import settings
-from django.db.models import get_model
+try:
+    from django.db import models as apps #import get_model
+except:
+    from django.apps import apps
 
 from lis.specimen.lab_order.models import Order as LisOrder
 from lis.specimen.lab_result.models import Result as LisResult
@@ -35,7 +38,7 @@ class DmisTools(object):
         """
         cnxn = pyodbc.connect(self.dmis_data_source)
         cursor = self.cnxn.cursor()
-        Order = get_model('lab_clinic_api', 'order')
+        Order = apps.get_model('lab_clinic_api', 'order')
         if not re.match('[A-Z]{2}[0-9]{5}', receive_identifier):
             raise TypeError('Invalid receive_identifier format. Must be format AA99999.Got {0}'.format(receive_identifier))
         if not re.match('\d+', batch_id):
@@ -103,8 +106,8 @@ class DmisTools(object):
             Args:
                 item: can be either a Result instance or an order_identifier.
         """
-        Result = get_model('lab_clinic_api', 'result')
-        LisResultItem = get_model('lab_result_item', 'resultitem')
+        Result = apps.get_model('lab_clinic_api', 'result')
+        LisResultItem = apps.get_model('lab_result_item', 'resultitem')
         if isinstance(item, Result):
             result = item
         elif Result.objects.filter(order__order_identifier=item).exists():
@@ -125,7 +128,7 @@ class DmisTools(object):
                     logger.info('    deleting orphaned result on django-lis (no items) for order {0}'.format(lis_result.order.order_identifier))
                     lis_result.delete()
             # does it have resultitems on the EDC?
-            ResultItem = get_model('lab_clinic_api', 'resultitem')
+            ResultItem = apps.get_model('lab_clinic_api', 'resultitem')
             if not ResultItem.objects.filter(result=result).exists():
                 order = result.order
                 logger.info('    refreshing order status on EDC for order {0}'.format(order.order_identifier))

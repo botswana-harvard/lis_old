@@ -20,6 +20,7 @@ class ZplTemplateForm (forms.ModelForm):
 
     class Meta:
         model = ZplTemplate
+        fields = '__all__'
 
 
 class LabelPrinterForm (forms.ModelForm):
@@ -29,3 +30,4 @@ class LabelPrinterForm (forms.ModelForm):
 
     class Meta:
         model = LabelPrinter
+        fields = '__all__'

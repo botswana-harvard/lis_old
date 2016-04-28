@@ -4,7 +4,10 @@ import re
 from datetime import datetime
 
 from django.conf import settings
-from django.db.models import Max, get_model
+try:
+    from django.db import models as apps #import Max, get_model
+except:
+    from django.apps import apps
 
 from lis.core.bhp_research_protocol.models import Protocol, Site, Location
 from lis.specimen.lab_receive.models import Receive
@@ -77,7 +80,7 @@ class Dmis(BaseDmis):
             set @pid='UY55139'
             update lab01response set datelastmodified=now() where pid=@pid
         """
-        ResultItem = get_model('lab_result_item', 'resultitem')
+        ResultItem = apps.get_model('lab_result_item', 'resultitem')
 
         lock_name = kwargs.get('subject_identifier', None)
         if not lock_name:
@@ -274,7 +277,7 @@ class Dmis(BaseDmis):
 
     def _fetch_or_create_resultsource(self, **kwargs):
         interfaces = ['psm_interface', 'cd4_interface', 'auto', 'manual_entry', 'direct_import', ]
-        agg = ResultSource.objects.using(self.lab_db).aggregate(Max('display_index'),)
+        agg = ResultSource.objects.using(self.lab_db).aggregate(apps.Max('display_index'),)
         display_index = 0
         if agg:
             display_index = agg['display_index__max'] or 0
@@ -499,7 +502,7 @@ class Dmis(BaseDmis):
         ordered on datelastmodified which means oldest testcodes will come in first
         and later be overwritten by the same testcode if a testcode appears more than once for a result.
         """
-        ResultItem = get_model('lab_result_item', 'resultitem')
+        ResultItem = apps.get_model('lab_result_item', 'resultitem')
 
         def get_ritem_user(dmis_user):
             # change NT system username to auto
@@ -665,7 +668,7 @@ class Dmis(BaseDmis):
         if AliquotCondition.objects.using(self.lab_db).values('pk').filter(short_name__exact=condition):
             aliquot_condition = AliquotCondition.objects.using(self.lab_db).get(short_name__exact=condition)
         else:
-            agg = AliquotCondition.objects.using(self.lab_db).aggregate(Max('display_index'),)
+            agg = AliquotCondition.objects.using(self.lab_db).aggregate(apps.Max('display_index'),)
             if not agg:
                 display_index = 10
             else:

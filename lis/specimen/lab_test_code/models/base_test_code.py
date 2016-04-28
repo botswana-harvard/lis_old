@@ -34,13 +34,13 @@ class BaseTestCode(BaseModel):
 
     is_absolute = models.CharField(
         verbose_name='Is the value absolute or calculated?',
-        max_length='15',
+        max_length=15,
         default='absolute',
         choices=ABS_CALC)
 
     formula = models.CharField(
         verbose_name='If calculated, formula?',
-        max_length='50',
+        max_length=50,
         null=True,
         blank=True)
 

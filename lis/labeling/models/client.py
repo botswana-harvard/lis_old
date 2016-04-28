@@ -7,7 +7,7 @@ from .label_printer import LabelPrinter
 
 class Client(BaseUuidModel):
     """A model that links client or user's machine to a printer by IP address."""
-    ip = models.IPAddressField(
+    ip = models.GenericIPAddressField(
         verbose_name='IP Address',
         null=True,
         blank=True,

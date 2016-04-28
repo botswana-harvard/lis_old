@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import django
 from unipath import Path
 
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -30,7 +31,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,11 +39,14 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'edc_base',
-    'edc_audit',
     'edc_registration',
     'lis',
     'lis.labeling'
-)
+]
+
+if float(django.get_version()) > 1.6:
+    INSTALLED_APPS.append('django_crypto_fields')
+    INSTALLED_APPS.append('simple_history')
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -108,7 +112,7 @@ STATIC_URL = '/static/'
 
 GIT_DIR = BASE_DIR.ancestor(1)
 
-KEY_PATH = os.path.join(BASE_DIR.ancestor(1), 'keys')
+KEY_PATH = os.path.join(BASE_DIR.ancestor(1), 'crypto_fields')
 KEY_PREFIX = 'test'
 PROJECT_ROOT = BASE_DIR
 

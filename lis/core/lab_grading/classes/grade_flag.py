@@ -1,4 +1,8 @@
-from django.db.models import Q, get_model
+from django.db.models import Q
+try:
+    from django.db import models as apps
+except:
+    from django.apps import apps
 from django.conf import settings
 from lis.core.lab_flag.classes import Flag
 from lis.core.lab_reference.classes import ReferenceFlag
@@ -155,7 +159,7 @@ class GradeFlag(Flag):
         reference_flag = ReferenceFlag(
             self.subject_identifier,
             self.subject_type,
-            ('reference_range_list', get_model('lab_clinic_reference', 'ReferenceRangeListItem')),
+            ('reference_range_list', apps.get_model('lab_clinic_reference', 'ReferenceRangeListItem')),
             self.test_code,
             self.gender,
             self.dob,

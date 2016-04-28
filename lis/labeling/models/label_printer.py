@@ -12,7 +12,7 @@ class LabelPrinter(BaseUuidModel):
         help_text='must be a valid hostname in hosts file or DNS.'
         )
 
-    cups_server_ip = models.IPAddressField(
+    cups_server_ip = models.GenericIPAddressField(
         null=True,
         help_text='provide if known.'
         )
