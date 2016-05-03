@@ -6,7 +6,8 @@ from django.conf import settings
 from django.core.exceptions import MultipleObjectsReturned
 from django.db import IntegrityError
 from django.db.models import ForeignKey
-from django.db.models import Q, get_model
+from django.apps import apps
+from django.db.models import Q # get_model
 from django.db.models.fields import NOT_PROVIDED
 
 from edc_registration.models import RegisteredSubject
@@ -65,7 +66,7 @@ class LisDataImporter(object):
         target and source are the same (see isinstance() test for ForeignKey fields below).
         """
 
-        LisResultItem = get_model('lab_result_item', 'resultitem')
+        LisResultItem = apps.get_model('lab_result_item', 'resultitem')
 
         subject_identifier = kwargs.get('subject_identifier', None)
         protocol_identifier = kwargs.get('protocol_identifier', None)
