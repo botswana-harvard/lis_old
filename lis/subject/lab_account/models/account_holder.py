@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext as _
 
-from edc_base.encrypted_fields import EncryptedCharField
+from django_crypto_fields.fields import EncryptedCharField
 
 from edc_base.model.models import BaseUuidModel
 
