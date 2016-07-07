@@ -1,9 +1,9 @@
-from edc_base.model.models import BaseListModel
+from edc_base.model.models import ListModelMixin
 
 from ..managers import AliquotConditionManager
 
 
-class BaseAliquotCondition(BaseListModel):
+class BaseAliquotCondition(ListModelMixin):
 
     objects = AliquotConditionManager()
 

@@ -1,9 +1,9 @@
 from django.db import models
 
-from edc_base.model.models import BaseListModel
+from edc_base.model.models import ListModelMixin
 
 
-class ResultSource(BaseListModel):
+class ResultSource(ListModelMixin):
 
     objects = models.Manager()
 
