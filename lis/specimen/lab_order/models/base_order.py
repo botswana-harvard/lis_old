@@ -31,7 +31,7 @@ class BaseOrder(models.Model):
         blank=True)
     import_datetime = models.DateTimeField(null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s %s' % (self.order_identifier, self.panel)
 
     class Meta:

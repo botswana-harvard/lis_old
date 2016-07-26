@@ -14,7 +14,7 @@ class BaseTestCodeGroup(BaseModel):
 
     objects = models.Manager()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.code
 
     class Meta:

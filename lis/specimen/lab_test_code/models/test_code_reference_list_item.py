@@ -21,7 +21,7 @@ class TestCodeReferenceListItem(BaseReferenceListItem):
     def age_high_days(self):
         return get_upper_range_days(self.age_high, self.age_high_unit)
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s" % (self.test_code)
 
     class Meta:

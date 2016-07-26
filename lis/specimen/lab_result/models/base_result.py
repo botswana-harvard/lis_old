@@ -43,7 +43,7 @@ class BaseResult(models.Model):
         help_text='dmis import value. N/A unless data imported from old system')
     import_datetime = models.DateTimeField(null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s' % (self.result_identifier)
 
     def panel(self):

@@ -46,7 +46,7 @@ class BaseTestCode(BaseModel):
 
     objects = TestCodeManager()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def natural_key(self):

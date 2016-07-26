@@ -7,7 +7,7 @@ class AliquotCondition(BaseAliquotCondition):
 
     objects = models.Manager()
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s: %s" % (self.short_name.upper(), self.name)
 
     class Meta:

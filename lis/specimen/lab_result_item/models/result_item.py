@@ -33,7 +33,7 @@ class ResultItem(BaseResultItem):
         self.receive_identifier = self.result.order.aliquot.receive.receive_identifier
         super(ResultItem, self).save(*args, **kwargs)
 
-    def __unicode__(self):
+    def __str__(self):
         return '{} {}' .format(self.result, self.test_code)
 
     def get_subject_type(self):

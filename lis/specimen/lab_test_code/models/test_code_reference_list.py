@@ -3,7 +3,7 @@ from lis.core.lab_reference.models import BaseReferenceList
 
 class TestCodeReferenceList(BaseReferenceList):
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta:

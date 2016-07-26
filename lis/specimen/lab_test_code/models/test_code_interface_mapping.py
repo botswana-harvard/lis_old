@@ -14,7 +14,7 @@ class TestCodeInterfaceMapping(BaseModel):
 
     local_test_code = models.ForeignKey(TestCode, verbose_name="Local Test Code")
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s maps to %s" % (self.foreign_test_code, self.local_test_code)
 
     class Meta:

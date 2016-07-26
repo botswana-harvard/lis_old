@@ -7,7 +7,7 @@ class AliquotMedium(ListModelMixin):
 
     objects = models.Manager()
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s" % (self.name.upper())
 
     class Meta:

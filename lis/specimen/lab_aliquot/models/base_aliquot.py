@@ -81,7 +81,7 @@ class BaseAliquot (models.Model):
         editable=False,
         help_text="non-user helper field to simplify search and filter")
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s' % (self.aliquot_identifier)
 
     def save(self, *args, **kwargs):

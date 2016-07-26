@@ -47,7 +47,7 @@ class BaseReceive (models.Model):
 
     import_datetime = models.DateTimeField(null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return '{0}'.format(self.receive_identifier)
 
     class Meta:
