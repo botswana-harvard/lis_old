@@ -7,7 +7,7 @@ class ZplTemplate(BaseUuidModel):
     """A model of the templates used for formating barcodes in the ZPL template language."""
     name = models.CharField(max_length=50, unique=True)
 
-    template = models.TextField(max_length=250)
+    template = models.TextField(max_length=500)
 
     default = models.BooleanField(default=False)
 
