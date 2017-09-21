@@ -1,1 +1,1 @@
-recursive-include lis/static/css/ *
+recursive-include lis/templates

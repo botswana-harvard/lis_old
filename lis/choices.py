@@ -1,22 +1,10 @@
-from django.utils.translation import ugettext_lazy as _
 
-
-POS_NEG_UNKNOWN = (
-    ('POS', _('Positive')),
-    ('NEG', _('Negative')),
-    ('UNKNOWN', _('Unknown')),
-)
 
 ART_STATUS_UNKNOWN = (
     ('ON', 'ON ART'),
     ('STOPPED', 'Stopped'),
     ('NAIVE', 'Naive'),
     ('UNKNOWN', 'Unknown'),
-)
-
-GENDER = (
-    ('M', _('Male')),
-    ('F', _('Female')),
 )
 
 ABS_CALC = (
