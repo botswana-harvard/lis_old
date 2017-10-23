@@ -60,3 +60,5 @@ class ReceiveAdmin(admin.ModelAdmin):
         'specimen_identifier',
         'patient__subject_identifier'
     )
+
+    autocomplete_fields = ['patient']

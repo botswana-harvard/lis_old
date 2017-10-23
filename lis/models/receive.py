@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.deletion import PROTECT
 from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
 
@@ -9,7 +10,7 @@ from .receive_model_mixin import ReceiveModelMixin
 
 class Receive(ReceiveModelMixin, BaseUuidModel):
 
-    patient = models.ForeignKey(Patient)
+    patient = models.ForeignKey(Patient, on_delete=PROTECT)
 
     age_in_years = models.IntegerField()
 

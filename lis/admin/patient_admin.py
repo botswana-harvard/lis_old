@@ -10,6 +10,8 @@ class PatientAdmin(admin.ModelAdmin):
 
     form = PatientForm
 
+    search_fields = ['subject_identifier']
+
     fieldsets = (
         (None, {
             'fields': [
@@ -35,8 +37,4 @@ class PatientAdmin(admin.ModelAdmin):
     list_filter = (
         'gender',
         'created',
-    )
-
-    search_fields = (
-        'subject_identifier',
     )

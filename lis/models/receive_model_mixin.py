@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.deletion import PROTECT
 from edc_base.utils import get_utcnow
 from edc_base.model_validators.date import datetime_not_future
 
@@ -25,9 +26,10 @@ class ReceiveModelMixin(models.Model):
         unique=True,
         help_text='The original unique specimen identifier from customer.')
 
-    specimen_type = models.ForeignKey(SpecimenType)
+    specimen_type = models.ForeignKey(SpecimenType, on_delete=PROTECT)
 
-    specimen_condition = models.ForeignKey(SpecimenCondition)
+    specimen_condition = models.ForeignKey(
+        SpecimenCondition, on_delete=PROTECT)
 
     specimen_volume = models.DecimalField(
         decimal_places=2,

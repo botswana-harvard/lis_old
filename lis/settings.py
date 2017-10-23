@@ -25,9 +25,9 @@ APP_NAME = 'lis'
 SECRET_KEY = 'rwm$jc#f-+h=f%f!0lg9+#qb!u23ds3tyn*1&i(tkx61s2rkj2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '192.168.157.11', '127.0.0.1', '10.113.201.218']
 
 
 # Application definition
@@ -41,8 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_crypto_fields.apps.AppConfig',
     'django_revision.apps.AppConfig',
+    'edc_base.apps.AppConfig',
     'edc_identifier.apps.AppConfig',
     'edc_device.apps.AppConfig',
+    'edc_protocol.apps.AppConfig',
     'edc_lab.apps.AppConfig',
     'lis.apps.AppConfig',
 ]
@@ -128,6 +130,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 GIT_DIR = BASE_DIR
 KEY_PATH = os.path.join(BASE_DIR, 'crypto_fields')
 ETC_DIR = os.path.join(BASE_DIR, 'etc')
