@@ -1,4 +1,4 @@
-# from edc_base.preload_data import PreloadData
+from edc_base.preload_data import PreloadData
 from .constants import CONDITION_OK
 
 
@@ -10,4 +10,10 @@ list_data = {
         (CONDITION_OK, 'OK'),
     ]}
 
-# PreloadData(list_data=list_data)
+model_data = {}
+unique_field_data = {}
+
+preload_data = PreloadData(
+    list_data=list_data,
+    model_data=model_data,
+    unique_field_data=unique_field_data)

@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from ..models import Protocol
-from edc_base.modeladmin_mixins.model_admin_audit_fields_mixin import audit_fieldset_tuple
+from edc_model_admin.model_admin_audit_fields_mixin import audit_fieldset_tuple
 
 
 @admin.register(Protocol)

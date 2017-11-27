@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.deletion import PROTECT
 from edc_base.utils import get_utcnow
-from edc_base.model_validators.date import datetime_not_future
+from edc_base.model_validators import datetime_not_future
 
 from .list_models import SpecimenType, SpecimenCondition
 

@@ -1,6 +1,5 @@
 from django import forms
-from edc_base.modelform_validators import FormValidator
-from edc_base.modelform_validators.base_form_validator import REQUIRED_ERROR
+from edc_form_validators import FormValidator, REQUIRED_ERROR
 
 INVALID_PROTOCOL = 'Invalid protocol'
 

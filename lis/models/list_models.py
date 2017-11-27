@@ -1,5 +1,4 @@
-from edc_base.model_mixins.list_model_mixin import ListModelMixin
-from edc_base.model_mixins import BaseUuidModel
+from edc_base.model_mixins import BaseUuidModel, ListModelMixin
 
 
 class SpecimenType(ListModelMixin, BaseUuidModel):

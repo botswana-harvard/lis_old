@@ -1,5 +1,5 @@
 from django.contrib import admin
-from edc_base.modeladmin_mixins import audit_fieldset_tuple
+from edc_model_admin import audit_fieldset_tuple
 
 from ..forms import PatientForm
 from ..models import Patient
